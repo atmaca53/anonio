@@ -1,3 +1,6 @@
+# This wallet is under development and should NOT be used at this time
+Skellers (16th May, 2019)
+
 # Zepio | ZEC Wallet
 
 Zepio is a Sapling-enabled shielded-address-first Zcash wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
