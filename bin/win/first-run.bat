@@ -4,8 +4,8 @@ IF NOT EXIST %AppData%\Anon (
     mkdir %AppData%\Anon
 )
 
-IF NOT EXIST %AppData%\AnonParams (
-    mkdir %AppData%\AnonParams
+IF NOT EXIST %AppData%\ZcashParams (
+    mkdir %AppData%\ZcashParams
 )
 
 IF NOT EXIST %AppData%\Anon\anon.conf (
