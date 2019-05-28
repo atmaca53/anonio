@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import electron from 'electron'; // eslint-disable-line
 
 import electronStore from '../../config/electron-store';
-import { ZCASH_NETWORK } from '../constants/zcash-network';
+import { ANON_NETWORK } from '../constants/anon-network';
 import { SettingsView } from '../views/settings';
 
 import { loadAddressesSuccess, loadAddressesError } from '../redux/modules/receive';
@@ -17,19 +17,19 @@ import type { Dispatch } from '../types/redux';
 
 export type MapStateToProps = {|
   addresses: { address: string, balance: number }[],
-  zcashNetwork: string,
+  anonNetwork: string,
   embeddedDaemon: boolean,
 |};
 
 const mapStateToProps = ({ receive, app }: AppState): MapStateToProps => ({
   addresses: receive.addresses,
-  zcashNetwork: app.zcashNetwork,
+  anonNetwork: app.anonNetwork,
   embeddedDaemon: app.embeddedDaemon,
 });
 
 export type MapDispatchToProps = {|
   loadAddresses: () => Promise<void>,
-  updateZcashNetwork: (newNetwork: string) => void,
+  updateAnonNetwork: (newNetwork: string) => void,
 |};
 
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
@@ -49,8 +49,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       }),
     );
   },
-  updateZcashNetwork: (newNetwork) => {
-    electronStore.set(ZCASH_NETWORK, newNetwork);
+  updateAnonNetwork: (newNetwork) => {
+    electronStore.set(ANON_NETWORK, newNetwork);
 
     electron.remote.app.relaunch({
       args: Array.from(new Set(electron.remote.process.argv.slice(1).concat(['--relaunch']))),

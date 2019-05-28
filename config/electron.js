@@ -10,9 +10,9 @@ import { app, BrowserWindow, typeof BrowserWindow as BrowserWindowType } from 'e
 import { autoUpdater } from 'electron-updater';
 import isDev from 'electron-is-dev';
 import { registerDebugShortcut } from '../utils/debug-shortcut';
-import runDaemon from './daemon/zcashd-child-process';
-import { log as zcashLog, cleanLogs } from './daemon/logger';
-import getZecPrice from '../services/zec-price';
+import runDaemon from './daemon/anond-child-process';
+import { log as anonLog, cleanLogs } from './daemon/logger';
+import getAnonPrice from '../services/anon-price';
 import store from './electron-store';
 import { handleDeeplink } from './handle-deeplink';
 
@@ -20,7 +20,7 @@ dotenv.config();
 
 let mainWindow: BrowserWindowType;
 let updateAvailable: boolean = false;
-let zcashDaemon;
+let anonDaemon;
 
 const showStatus = (text) => {
   if (text === 'Update downloaded') updateAvailable = true;
@@ -68,7 +68,7 @@ const createWindow = () => {
     },
   });
 
-  getZecPrice().then(({ USD }) => store.set('ZEC_DOLLAR_PRICE', String(USD)));
+  getAnonPrice().then(({ USD }) => store.set('ANON_DOLLAR_PRICE', String(USD)));
 
   mainWindow.setVisibleOnAllWorkspaces(true);
   registerDebugShortcut(app, mainWindow);
@@ -81,7 +81,7 @@ const createWindow = () => {
   exports.mainWindow = mainWindow;
 };
 
-app.setAsDefaultProtocolClient('zcash');
+app.setAsDefaultProtocolClient('anon');
 
 const instanceLock = app.requestSingleInstanceLock();
 if (instanceLock) {
@@ -117,18 +117,18 @@ app.on('ready', async () => {
   cleanLogs();
 
   if (process.env.NODE_ENV === 'test') {
-    zcashLog('Not running daemon, please run the mock API');
+    anonLog('Not running daemon, please run the mock API');
     return;
   }
 
   runDaemon()
     .then((proc) => {
       if (proc) {
-        zcashLog(`Zcash Daemon running. PID: ${proc.pid}`);
-        zcashDaemon = proc;
+        anonLog(`Anon Daemon running. PID: ${proc.pid}`);
+        anonDaemon = proc;
       }
     })
-    .catch(zcashLog);
+    .catch(anonLog);
 });
 app.on('activate', () => {
   if (mainWindow === null) createWindow();
@@ -137,8 +137,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 app.on('before-quit', () => {
-  if (zcashDaemon) {
-    zcashLog('Graceful shutdown Zcash Daemon, this may take a few seconds.');
-    zcashDaemon.kill('SIGINT');
+  if (anonDaemon) {
+    anonLog('Graceful shutdown Anon Daemon, this may take a few seconds.');
+    anonDaemon.kill('SIGINT');
   }
 });

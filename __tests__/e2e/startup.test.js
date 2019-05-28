@@ -15,15 +15,15 @@ describe('Startup', () => {
   test('should open the window', () => expect(app.client.getWindowCount()).resolves.toEqual(1));
 
   test('should have the right title', () => {
-    expect(app.client.getTitle()).resolves.toEqual('Zepio');
+    expect(app.client.getTitle()).resolves.toEqual('Anonio');
   });
 
-  test('should show the text "Zepio Starting" in loading screen', async () => expect(app.client.element('#loading-screen:first-child p').getHTML()).resolves.toEqual(
-    expect.stringContaining('Zepio Starting'),
+  test('should show the text "Anonio Starting" in loading screen', async () => expect(app.client.element('#loading-screen:first-child p').getHTML()).resolves.toEqual(
+    expect.stringContaining('Anonio Starting'),
   ));
 
-  test('should show the zcash logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
-    expect.stringContaining('/assets/zcash-simple-icon.svg'),
+  test('should show the anon logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
+    expect.stringContaining('/assets/anon-simple-icon.svg'),
   ));
 
   test('should show the loading circle in loading screen', () => {

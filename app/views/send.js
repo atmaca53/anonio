@@ -190,7 +190,7 @@ const ValidateItemLabel = styled(ItemLabel)`
   margin-bottom: -1px;
 `;
 
-const SendZECValue = styled(TextComponent)`
+const SendANONValue = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionSent};
   font-size: ${props => `${props.theme.fontSize.large}em`};
   font-weight: ${props => String(props.theme.fontWeight.bold)};
@@ -429,12 +429,12 @@ class Component extends PureComponent<Props, State> {
 
   componentDidMount() {
     const {
-      resetSendView, loadAddresses, loadZECPrice, match,
+      resetSendView, loadAddresses, loadANONPrice, match,
     } = this.props;
 
     resetSendView();
     loadAddresses();
-    loadZECPrice();
+    loadANONPrice();
 
     if (match.params.to) {
       this.handleChange('to')(match.params.to);
@@ -664,7 +664,7 @@ class Component extends PureComponent<Props, State> {
         <ConfirmItemWrapper alignItems='center'>
           <ColumnComponent>
             <ItemLabel value='AMOUNT' />
-            <SendZECValue value={`-${valueSent}`} />
+            <SendANONValue value={`-${valueSent}`} />
             <SendUSDValue value={`-${valueSentInUsd}`} />
           </ColumnComponent>
           <ColumnComponent>
@@ -733,7 +733,7 @@ class Component extends PureComponent<Props, State> {
     const {
       addresses,
       balance,
-      zecPrice,
+      anonPrice,
       isSending,
       error,
       operationId,
@@ -757,9 +757,9 @@ class Component extends PureComponent<Props, State> {
     const fixedAmount = isEmpty || new BigNumber(amount).eq(0) ? 0 : this.getAmountWithFee();
     const coinName = getCoinName();
 
-    const zecBalance = formatNumber({ value: balance, append: `${coinName} ` });
-    const zecBalanceInUsd = formatNumber({
-      value: new BigNumber(balance).times(zecPrice).toNumber(),
+    const anonBalance = formatNumber({ value: balance, append: `${coinName} ` });
+    const anonBalanceInUsd = formatNumber({
+      value: new BigNumber(balance).times(anonPrice).toNumber(),
       append: 'USD $',
     });
     const valueSent = formatNumber({
@@ -767,7 +767,7 @@ class Component extends PureComponent<Props, State> {
       append: `${coinName} `,
     });
     const valueSentInUsd = formatNumber({
-      value: new BigNumber(fixedAmount).times(zecPrice).toNumber(),
+      value: new BigNumber(fixedAmount).times(anonPrice).toNumber(),
       append: 'USD $',
     });
 
@@ -925,8 +925,8 @@ class Component extends PureComponent<Props, State> {
           <InfoCard>
             <InfoContent>
               <InfoCardLabel value='Available Funds' />
-              <TextComponent value={zecBalance} size={1.25} isBold />
-              <InfoCardUSD value={zecBalanceInUsd} size={0.84375} />
+              <TextComponent value={anonBalance} size={1.25} isBold />
+              <InfoCardUSD value={anonBalanceInUsd} size={0.84375} />
             </InfoContent>
             <Divider opacity={0.3} />
             <InfoContent>

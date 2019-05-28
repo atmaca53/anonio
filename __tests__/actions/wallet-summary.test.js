@@ -34,7 +34,7 @@ describe('WalletSummary Actions', () => {
       unconfirmed: 100,
       addresses: [],
       transactions: [],
-      zecPrice: 50,
+      anonPrice: 50,
     };
 
     store.dispatch(loadWalletSummarySuccess(payload));

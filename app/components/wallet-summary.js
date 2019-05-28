@@ -91,7 +91,7 @@ type Props = {
   shielded: number,
   transparent: number,
   unconfirmed: number,
-  zecPrice: number,
+  anonPrice: number,
   theme: AppTheme,
 };
 
@@ -100,7 +100,7 @@ export const Component = ({
   shielded,
   transparent,
   unconfirmed,
-  zecPrice,
+  anonPrice,
   theme,
 }: Props) => {
   const coinName = getCoinName();
@@ -116,7 +116,7 @@ export const Component = ({
             isBold
           />
           <USDValue
-            value={`USD $${formatNumber({ value: total * zecPrice })}`}
+            value={`USD $${formatNumber({ value: total * anonPrice })}`}
             size={theme.fontSize.medium * 2}
           />
         </TotalContainer>
@@ -127,7 +127,7 @@ export const Component = ({
             isBold
             size='16px'
           />
-          <USDValue value={`USD $${formatNumber({ value: shielded * zecPrice })}`} />
+          <USDValue value={`USD $${formatNumber({ value: shielded * anonPrice })}`} />
         </DetailContainer>
         <DetailContainer>
           <DefaultLabel value='TRANSPARENT' isBold size={theme.fontSize.small} />
@@ -136,7 +136,7 @@ export const Component = ({
             isBold
             size='16px'
           />
-          <USDValue value={`USD $${formatNumber({ value: transparent * zecPrice })}`} />
+          <USDValue value={`USD $${formatNumber({ value: transparent * anonPrice })}`} />
         </DetailContainer>
         <DetailContainer>
           <UnconfirmedLabel value='UNCONFIRMED' isBold size={theme.fontSize.small} />
@@ -145,7 +145,7 @@ export const Component = ({
             isBold
             size='16px'
           />
-          <USDValue value={`USD $${formatNumber({ value: unconfirmed * zecPrice })}`} />
+          <USDValue value={`USD $${formatNumber({ value: unconfirmed * anonPrice })}`} />
         </DetailContainer>
       </Wrapper>
     </OutsideWrapper>

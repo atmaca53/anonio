@@ -121,7 +121,7 @@ type Props = {
   options?: MenuItem[],
   location: Location,
   theme: AppTheme,
-  zcashNetwork: string,
+  anonNetwork: string,
   embeddedDaemon: boolean,
 };
 
@@ -130,7 +130,7 @@ export const Component = ({
   location,
   history,
   theme,
-  zcashNetwork,
+  anonNetwork,
   embeddedDaemon,
 }: Props) => (
   <Wrapper id='sidebar'>
@@ -163,7 +163,7 @@ export const Component = ({
       </DetailsItemWrapper>
       <DetailsItemWrapper>
         <DetailsItemLabel>Network</DetailsItemLabel>
-        <DetailsItemValue>{zcashNetwork}</DetailsItemValue>
+        <DetailsItemValue>{anonNetwork}</DetailsItemValue>
       </DetailsItemWrapper>
     </InnerWrapperBottom>
   </Wrapper>

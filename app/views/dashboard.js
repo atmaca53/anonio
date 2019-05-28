@@ -16,7 +16,7 @@ type Props = {
   transparent: number,
   unconfirmed: number,
   error: string | null,
-  zecPrice: number,
+  anonPrice: number,
   addresses: string[],
   isDaemonReady: boolean,
   transactions: TransactionsList,
@@ -48,7 +48,7 @@ export class DashboardView extends PureComponent<Props> {
       shielded,
       transparent,
       unconfirmed,
-      zecPrice,
+      anonPrice,
       addresses,
       transactions,
     } = this.props;
@@ -64,7 +64,7 @@ export class DashboardView extends PureComponent<Props> {
           shielded={shielded}
           transparent={transparent}
           unconfirmed={unconfirmed}
-          zecPrice={zecPrice}
+          anonPrice={anonPrice}
           addresses={addresses}
         />
         {transactions.length === 0 ? (
@@ -74,7 +74,7 @@ export class DashboardView extends PureComponent<Props> {
             <TransactionDailyComponent
               transactionsDate={day}
               transactions={list}
-              zecPrice={zecPrice}
+              anonPrice={anonPrice}
               key={day}
             />
           ))

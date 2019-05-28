@@ -11,7 +11,7 @@ import { DashboardView } from '../views/dashboard';
 
 import rpc from '../../services/api';
 import store from '../../config/electron-store';
-import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/zcash-network';
+import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
 import { listShieldedTransactions } from '../../services/shielded-transactions';
 import { sortByDescend } from '../utils/sort-by-descend';
@@ -32,7 +32,7 @@ const mapStateToProps = ({ walletSummary, app }: AppState) => ({
   unconfirmed: walletSummary.unconfirmed,
   error: walletSummary.error,
   isLoading: walletSummary.isLoading,
-  zecPrice: walletSummary.zecPrice,
+  anonPrice: walletSummary.anonPrice,
   addresses: walletSummary.addresses,
   transactions: walletSummary.transactions,
   isDaemonReady: app.nodeSyncType === NODE_SYNC_TYPES.READY,
@@ -96,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         unconfirmed: unconfirmedBalance,
         addresses: [...zAddresses, ...tAddresses],
         transactions: formattedTransactions,
-        zecPrice: new BigNumber(store.get('ZEC_DOLLAR_PRICE')).toNumber(),
+        anonPrice: new BigNumber(store.get('ANON_DOLLAR_PRICE')).toNumber(),
       }),
     );
   },

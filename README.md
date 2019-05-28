@@ -1,24 +1,24 @@
 # This wallet is under development and should NOT be used at this time
 Skellers (16th May, 2019)
 
-# Zepio | ZEC Wallet
+# Anonio | ANON Wallet
 
-Zepio is a Sapling-enabled shielded-address-first Zcash wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
+Anonio is a Sapling-enabled shielded-address-first Anon wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
 
 ![Build Status](https://app.bitrise.io/app/a5bc7a8391d5501b/status.svg?token=SOuGNc3Qf9rCj3Osl-eHyQ&branch=master)
 ![Flow Coverage](./public/flow-coverage-badge.svg)
 
-### [Latest Documentation](https://zepiowallet.com)
+### [Latest Documentation](https://anoniowallet.com)
 
-### [Latest Release](https://github.com/ZcashFoundation/zepio/releases)
+### [Latest Release](https://github.com/AnonFoundation/anonio/releases)
 
-![Zepio Wallet](https://raw.githubusercontent.com/ZcashFoundation/zepio-docs/develop/docz/assets/dashboard.png)
+![Anonio Wallet](https://raw.githubusercontent.com/AnonFoundation/anonio-docs/develop/docz/assets/dashboard.png)
 
 ## Stack Information
 
-List of the main open source libraries and technologies used in building **Zepio**:
+List of the main open source libraries and technologies used in building **Anonio**:
 
-- [zcashd](https://github.com/zcash/zcash): Zcash node daemon
+- [anond](https://github.com/anon/anon): Anon node daemon
 - [Electron](https://github.com/electron/electron): Desktop application builder
 - [React](https://facebook.github.io/react/): User interface view layer
 - [Redux](http://redux.js.org/): Predictable application state container
@@ -31,16 +31,16 @@ List of the main open source libraries and technologies used in building **Zepio
 
 ## Installing and Running From Source
 
-To run **Zepio** from source you'll need to perform the following steps:
+To run **Anonio** from source you'll need to perform the following steps:
 ```bash
 # Ensure you have Node LTS v8+
 # https://nodejs.org/en/
 
 # Clone Codebase
-git clone git@github.com:ZcashFoundation/zepio.git
+git clone git@github.com:AnonFoundation/anonio.git
 
 # Install Dependencies
-# inside of the `zepio` folder
+# inside of the `anonio` folder
 yarn install
 # or
 npm install
@@ -48,7 +48,7 @@ npm install
 # Start Application
 # webpack development server hosts the application on port
 # 8080 and launches the Electron wrapper, which also hosts
-# the `zcashd` node daemon process.
+# the `anond` node daemon process.
 yarn start
 # or
 npm start
@@ -58,7 +58,7 @@ npm start
 
 To build the application locally follow the instructions below:
 ```bash
-# Make sure you are inside of the main `zepio` folder
+# Make sure you are inside of the main `anonio` folder
 
 # Run Build Script
 yarn electron:distall
@@ -70,23 +70,23 @@ yarn electron:distall
 
 For a deeper look on the static typing coverage of the application, please follow below:
 ```bash
-# Make sure you are inside of the main `zepio` folder
+# Make sure you are inside of the main `anonio` folder
 
 # Generate Flow Coverage Report
 # this can take a couple seconds
 yarn flow:report
 
 # Browser should open with the file `index.html` opened
-# Files are also available at `zepio/flow-coverage/source`
+# Files are also available at `anonio/flow-coverage/source`
 ```
 
 ## Component Library (Docz)
 
-To see Zepio's React component library, please visit https://zepio-components.now.sh. We're always looking for folks to help keep the styleguide updated.
+To see Anonio's React component library, please visit https://anonio-components.now.sh. We're always looking for folks to help keep the styleguide updated.
 
 To run the component library locally, run the following:
 ```bash
-# Make sure you are inside of the main `zepio` folder
+# Make sure you are inside of the main `anonio` folder
 
 # Run Docz Development Script
 yarn docz:dev
@@ -96,7 +96,7 @@ yarn docz:dev
 
 To build the component library locally, run the following:
 ```bash
-# Make sure you are inside of the main `zepio` folder
+# Make sure you are inside of the main `anonio` folder
 
 # Run Build Script
 yarn docz:build
@@ -108,7 +108,7 @@ yarn docz:build
 
 To run the application's tests, please run the below:
 ```bash
-# Make sure you are inside of the main `zepio` folder
+# Make sure you are inside of the main `anonio` folder
 
 # For Unit Tests: Run Jest Unit Test Suite
 yarn test:unit
@@ -121,8 +121,8 @@ yarn test e2e
 
 ## Contributing
 
-In order to contribute and submit PRs to improve the **Zepio** codebase, please check our [CONTRIBUTING](https://github.com/ZcashFoundation/zepio/blob/master/CONTRIBUTING.md) guide.
+In order to contribute and submit PRs to improve the **Anonio** codebase, please check our [CONTRIBUTING](https://github.com/AnonFoundation/anonio/blob/master/CONTRIBUTING.md) guide.
 
 ## License
 
-MIT © Zcash Foundation 2019 zfnd.org
+MIT © Anon Foundation 2019 zfnd.org

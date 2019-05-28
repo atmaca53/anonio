@@ -9,7 +9,7 @@ import rpc from '../../services/api';
 import { SendView } from '../views/send';
 
 import {
-  loadZECPrice,
+  loadANONPrice,
   sendTransaction,
   sendTransactionSuccess,
   sendTransactionError,
@@ -40,7 +40,7 @@ export type SendTransactionInput = {
 
 export type MapStateToProps = {|
   balance: number,
-  zecPrice: number,
+  anonPrice: number,
   addresses: { address: string, balance: number }[],
   error: string | null,
   isSending: boolean,
@@ -51,7 +51,7 @@ export type MapStateToProps = {|
 
 const mapStateToProps = ({ sendStatus, receive, app }: AppState): MapStateToProps => ({
   balance: sendStatus.addressBalance,
-  zecPrice: sendStatus.zecPrice,
+  anonPrice: sendStatus.anonPrice,
   addresses: receive.addresses,
   error: sendStatus.error,
   isSending: sendStatus.isSending,
@@ -65,7 +65,7 @@ export type MapDispatchToProps = {|
   loadAddresses: () => Promise<void>,
   resetSendView: () => void,
   validateAddress: ({ address: string }) => Promise<void>,
-  loadZECPrice: () => void,
+  loadANONPrice: () => void,
   getAddressBalance: ({ address: string }) => Promise<void>,
 |};
 
@@ -202,9 +202,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       }),
     );
   },
-  loadZECPrice: () => dispatch(
-    loadZECPrice({
-      value: Number(store.get('ZEC_DOLLAR_PRICE')),
+  loadANONPrice: () => dispatch(
+    loadANONPrice({
+      value: Number(store.get('ANON_DOLLAR_PRICE')),
     }),
   ),
   getAddressBalance: async ({ address }: { address: string }) => {

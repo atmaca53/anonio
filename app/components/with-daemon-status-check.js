@@ -25,14 +25,14 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
     state = {
       isRunning: false,
       progress: 0,
-      message: 'Zepio Starting',
+      message: 'Anonio Starting',
     };
 
     componentDidMount() {
       this.runTest();
       this.timer = setInterval(this.runTest, 2000);
 
-      electron.ipcRenderer.on('zcash-daemon-status', (event: empty, message: Object) => {
+      electron.ipcRenderer.on('anon-daemon-status', (event: empty, message: Object) => {
         this.hasDaemonError = message.error;
 
         if (message.error) {
@@ -76,7 +76,7 @@ export const withDaemonStatusCheck = <PassedProps: {}>(
         .catch((error) => {
           if (this.hasDaemonError) return;
 
-          const statusMessage = error.message === 'Something went wrong' ? 'Zepio Starting' : error.message;
+          const statusMessage = error.message === 'Something went wrong' ? 'Anonio Starting' : error.message;
 
           const isRpcOff = Math.trunc(error.statusCode / 100) === 5;
 

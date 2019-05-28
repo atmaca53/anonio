@@ -2,6 +2,6 @@
 
 import { isTestnet } from '../../config/is-testnet';
 
-export const ZCASH_EXPLORER_BASE_URL = isTestnet()
-  ? 'https://chain.so/tx/ZECTEST/'
+export const ANON_EXPLORER_BASE_URL = isTestnet()
+  ? 'https://chain.so/tx/ANONTEST/'
   : 'https://zcha.in/transactions/';

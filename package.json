@@ -1,10 +1,10 @@
 {
-  "name": "zepio",
+  "name": "anonio",
   "version": "0.6.2",
-  "description": "Zepio",
+  "description": "Anonio",
   "main": "config/main.js",
   "license": "MIT",
-  "homepage": "https://zepiowallet.com",
+  "homepage": "https://anoniowallet.com",
   "scripts": {
     "start": "yarn check --integrity && concurrently \"cross-env BROWSER=none yarn dev\" \"wait-on http://0.0.0.0:8080 && yarn electron:dev\"",
     "dev": "webpack-dev-server --config config/webpack-dev.config.js --mode development --open --hot",
@@ -25,7 +25,7 @@
     "icon:build": "./node_modules/.bin/electron-icon-maker --input=build-assets/icon.png --output=./build",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
-    "docz:deploy": "yarn docz:build && cd ./.docz/dist && now && now alias zec-docz.now.sh",
+    "docz:deploy": "yarn docz:build && cd ./.docz/dist && now && now alias anon-docz.now.sh",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:unit": "jest --testPathIgnorePatterns=e2e --testPathIgnorePatterns=setup",
@@ -142,8 +142,8 @@
     "flow:precommit"
   ],
   "build": {
-    "appId": "com.zcashfoundation",
-    "productName": "Zepio",
+    "appId": "com.anonfoundation",
+    "productName": "Anonio",
     "asar": true,
     "directories": {
       "buildResources": "build",
@@ -187,9 +187,9 @@
       "icon": "./build/icons/win/icon.ico"
     },
     "protocols": {
-      "name": "zcash",
+      "name": "anon",
       "schemes": [
-        "zcash"
+        "anon"
       ]
     }
   },

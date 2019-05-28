@@ -9,19 +9,19 @@ import { isTestnet } from '../config/is-testnet';
 
 const getRPCConfig = () => ({
   host: '127.0.0.1',
-  port: isTestnet() ? 18232 : 8232,
+  port: isTestnet() ? 3127 : 3130,
   user: store.get('rpcuser'),
   password: store.get('rpcpassword'),
 });
 
 const getMessage = (statusCode, isECONNREFUSED) => {
   if (isECONNREFUSED) {
-    return 'Zepio could not find a daemon running, please check the logs!';
+    return 'Anonio could not find a daemon running, please check the logs!';
   }
 
   switch (statusCode) {
     case 401:
-      return 'Not authorized to access Zcash RPC, please check your rpcuser and rpcpassword';
+      return 'Not authorized to access Anon RPC, please check your rpcuser and rpcpassword';
     default:
       return 'Something went wrong';
   }

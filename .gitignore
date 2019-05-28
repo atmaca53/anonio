@@ -8,3 +8,6 @@ build
 coverage
 flow-typed
 .env
+zcashd*
+anond*
+
