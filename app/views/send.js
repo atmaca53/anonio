@@ -87,7 +87,7 @@ const AmountWrapper = styled.div`
 `;
 
 const AmountInput = styled(InputComponent)`
-  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '50')}px;
+  padding-left: ${(props: AmountProps) => (props.isEmpty ? '15' : '75')}px;
 `;
 
 const ShowFeeButton = styled.button`
