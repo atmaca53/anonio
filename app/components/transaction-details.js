@@ -9,6 +9,7 @@ import { ANON_EXPLORER_BASE_URL } from '../constants/explorer';
 import { DARK } from '../constants/themes';
 
 import SentIconDark from '../assets/images/transaction_sent_icon_dark.svg';
+import PendingIconDark from '../assets/images/transaction_pending_icon_dark.svg';
 import ReceivedIconDark from '../assets/images/transaction_received_icon_dark.svg';
 import SentIconLight from '../assets/images/transaction_sent_icon_light.svg';
 import ReceivedIconLight from '../assets/images/transaction_received_icon_light.svg';
@@ -149,14 +150,39 @@ const Component = ({
   confirmations,
 }: Props) => {
   const isReceived = type === 'receive';
+  const isImmature = type === 'immature';
+  const isSent = type === 'sent';
+  const isIncoming = isReceived || isImmature;
+ 
   const receivedIcon = theme.mode === DARK ? ReceivedIconDark : ReceivedIconLight;
   const sentIcon = theme.mode === DARK ? SentIconDark : SentIconLight;
+  const pendingIcon = theme.mode === DARK ? PendingIconDark : PendingIconDark;
   const coinName = getCoinName();
 
 
   let confirmationValue = 'Unconfirmed';
   if (confirmations >= 3) confirmationValue = confirmations;
   if (confirmed) confirmationValue = confirmations;
+
+  const getIconSrc = (state) => {
+    return (
+      {
+        receive:  ReceivedIconDark,
+        sent:     SentIconDark,
+        immature: PendingIconDark
+      }[state]
+    );
+  }
+
+  const getTextColor = (state) => {
+    return (
+      {
+        receive:  theme.colors.transactionReceived,
+        sent:     theme.colors.transactionSent,
+        immature: theme.colors.transactionPending
+      }[state]
+    );
+  }
 
   return (
     <Wrapper>
@@ -167,23 +193,19 @@ const Component = ({
         <TextComponent value='Transaction Details' align='center' />
       </TitleWrapper>
       <DetailsWrapper>
-        <Icon src={isReceived ? receivedIcon : sentIcon} alt='Transaction Type Icon' />
+        <Icon src={getIconSrc(type)} alt='Transaction Type Icon' />
         <TextComponent
           isBold
           size={2.625}
           value={formatNumber({
-            append: `${isReceived ? '+' : '-'}${coinName} `,
+            append: `${isIncoming ? '+' : '-'}${coinName} `,
             value: amount,
           })}
-          color={
-            isReceived
-              ? theme.colors.transactionReceived({ theme })
-              : theme.colors.transactionSent({ theme })
-          }
+          color={getTextColor(type)}
         />
         <TextComponent
           value={formatNumber({
-            append: `${isReceived ? '+' : '-'}USD `,
+            append: `${isIncoming ? '+' : '-'}USD `,
             value: new BigNumber(amount).times(anonPrice).toNumber(),
           })}
           size={1.5}
