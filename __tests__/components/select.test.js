@@ -17,7 +17,7 @@ describe('<SelectComponent />', () => {
         <SelectComponent
           onChange={console.log} // eslint-disable-line
           value='asbh1yeasbdh23848asdasd'
-          placeholder='Select a address'
+          placeholder='Select an address'
           options={[
             { label: 'asbh1yeasbdh23848asdasd', value: '1' },
             { label: 'urtyruhjr374hbfdjdhuh', value: '1' },
@@ -35,7 +35,7 @@ describe('<SelectComponent />', () => {
         <SelectComponent
           onChange={console.log} // eslint-disable-line
           value='asbh1yeasbdh23848asdasd'
-          placeholder='Select a address'
+          placeholder='Select an address'
           options={[
             { label: 'asbh1yeasbdh23848asdasd', value: '1' },
             { label: 'urtyruhjr374hbfdjdhuh', value: '1' },
@@ -53,7 +53,7 @@ describe('<SelectComponent />', () => {
         <SelectComponent
           onChange={console.log} // eslint-disable-line
           value='asbh1yeasbdh23848asdasd'
-          placeholder='Select a address'
+          placeholder='Select an address'
           options={[
             { label: 'asbh1yeasbdh23848asdasd', value: '1' },
             { label: 'urtyruhjr374hbfdjdhuh', value: '1' },

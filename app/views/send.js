@@ -785,7 +785,7 @@ class Component extends PureComponent<Props, State> {
           <SelectComponent
             onChange={this.handleChange('from')}
             value={from}
-            placeholder='Select a address'
+            placeholder='Select an address'
             options={addresses.map(({ address, balance: addressBalance }) => ({
               label: `[ ${formatNumber({
                 append: `${coinName} `,
