@@ -28,6 +28,7 @@ const brightSun = '#FFE240';
 const offBrand = 'rgba(238,201,76,0.65)';
 const error = '#FF6C6C';
 const success = '#6AEAC0';
+const pending = 'rgba(106,234,192,0.65)';
 
 // Misc
 const transparent = 'transparent';
@@ -80,6 +81,7 @@ export const DARK_COLORS = {
   // Transactions
   transactionSent: error,
   transactionReceived: success,
+  transactionPending: pending,
   transactionsDate: boulder,
   transactionsItemHovered: woodsmoke,
   transactionItemBg: black,

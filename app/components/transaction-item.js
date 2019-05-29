@@ -7,6 +7,7 @@ import dateFns from 'date-fns';
 import { DARK } from '../constants/themes';
 
 import SentIconDark from '../assets/images/transaction_sent_icon_dark.svg';
+import PendingIconDark from '../assets/images/transaction_pending_icon_dark.svg';
 import ReceivedIconDark from '../assets/images/transaction_received_icon_dark.svg';
 import SentIconLight from '../assets/images/transaction_sent_icon_light.svg';
 import ReceivedIconLight from '../assets/images/transaction_received_icon_light.svg';
@@ -45,7 +46,6 @@ const Icon = styled.img`
 
 /* eslint-disable max-len */
 const TransactionTypeLabel = styled(TextComponent)`
-  color: ${(props: PropsWithTheme<{ isReceived: boolean }>) => (props.isReceived ? props.theme.colors.transactionReceived : props.theme.colors.transactionSent)};
   text-transform: capitalize;
 `;
 /* eslint-enable max-len */
@@ -117,23 +117,48 @@ const Component = ({
   const coinName = getCoinName();
 
   const isReceived = type === 'receive';
+  const isImmature = type === 'immature';
+  const isSent = type === 'sent';
+  const isIncoming = isReceived || isImmature;
+
   const transactionTime = dateFns.format(new Date(date), 'HH:mm A');
   const transactionValueInAnon = formatNumber({
     value: amount,
-    append: `${isReceived ? '+' : '-'}${coinName} `,
+    append: `${isIncoming ? '+' : '-'}${coinName} `,
   });
   const transactionValueInUsd = formatNumber({
     value: amount * anonPrice,
-    append: `${isReceived ? '+' : '-'}USD $`,
+    append: `${isIncoming ? '+' : '-'}USD $`,
   });
 
   const receivedIcon = theme.mode === DARK ? ReceivedIconDark : ReceivedIconLight;
   const sentIcon = theme.mode === DARK ? SentIconDark : SentIconLight;
+  const pendingIcon = theme.mode === DARK ? PendingIconDark : PendingIconDark;
   const unconfirmedIcon = theme.mode === DARK ? UnconfirmedLight : UnconfirmedDark;
 
   // TODO: style the tooltip correctly (overlay issue)
   // const showUnconfirmed = !confirmed || confirmations < 1 || address === '(Shielded)';
   const showUnconfirmed = false;
+
+  const getIconSrc = (state) => {
+    return (
+      {
+        receive:  ReceivedIconDark,
+        sent:     SentIconDark,
+        immature: PendingIconDark
+      }[state]
+    );
+  }
+
+  const getTextColor = (state) => {
+    return (
+      {
+        receive:  theme.colors.transactionReceived,
+        sent:     theme.colors.transactionSent,
+        immature: theme.colors.transactionPending
+      }[state]
+    );
+  }
 
   return (
     <ModalComponent
@@ -146,9 +171,9 @@ const Component = ({
         >
           <RowComponent alignItems='center'>
             <RelativeRowComponent alignItems='center'>
-              <Icon src={isReceived ? receivedIcon : sentIcon} alt='Transaction Type Icon' />
+              <Icon src={getIconSrc(type)} alt='Transaction Type Icon' />
               <TransactionColumn>
-                <TransactionTypeLabel isReceived={isReceived} value={type} isBold />
+                <TransactionTypeLabel isReceived={isReceived} value={type} isBold color={getTextColor(type)}/>
                 <TransactionLabel value={transactionTime} isReceived={isReceived} />
               </TransactionColumn>
               {showUnconfirmed && (
@@ -163,7 +188,7 @@ const Component = ({
             <TextComponent
               isBold
               value={transactionValueInAnon}
-              color={isReceived ? theme.colors.transactionReceived : theme.colors.transactionSent}
+              color={getTextColor(type)}
             />
             <TransactionLabel value={transactionValueInUsd} />
           </ColumnComponent>
