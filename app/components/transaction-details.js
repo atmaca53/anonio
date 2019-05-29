@@ -151,8 +151,9 @@ const Component = ({
 }: Props) => {
   const isReceived = type === 'receive';
   const isImmature = type === 'immature';
+  const isGenerate = type === 'generate';
   const isSent = type === 'sent';
-  const isIncoming = isReceived || isImmature;
+  const isIncoming = isReceived || isImmature || isGenerate;
  
   const receivedIcon = theme.mode === DARK ? ReceivedIconDark : ReceivedIconLight;
   const sentIcon = theme.mode === DARK ? SentIconDark : SentIconLight;
@@ -168,7 +169,8 @@ const Component = ({
     return (
       {
         receive:  ReceivedIconDark,
-        sent:     SentIconDark,
+        generate: ReceivedIconDark,
+        send:     SentIconDark,
         immature: PendingIconDark
       }[state]
     );
@@ -178,7 +180,8 @@ const Component = ({
     return (
       {
         receive:  theme.colors.transactionReceived,
-        sent:     theme.colors.transactionSent,
+        generate: theme.colors.transactionReceived,
+        send:     theme.colors.transactionSent,
         immature: theme.colors.transactionPending
       }[state]
     );
