@@ -85,7 +85,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   },
   getNewAddress: async ({ type }) => {
     const [error, address] = await eres(
-      type === 'shielded' ? rpc.z_getnewaddress(SAPLING) : rpc.getnewaddress(''),
+      type === 'shielded' ? rpc.z_getnewaddress() : rpc.getnewaddress(''),
     );
 
     if (error || !address) return dispatch(getNewAddressError({ error: 'Unable to generate a new address' }));

@@ -77,7 +77,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     ])([...transactions, ...listShieldedTransactions()]);
 
     if (!zAddresses.length) {
-      const [, newZAddress] = await eres(rpc.z_getnewaddress(SAPLING));
+      const [, newZAddress] = await eres(rpc.z_getnewaddress());
 
       if (newZAddress) zAddresses.push(newZAddress);
     }
