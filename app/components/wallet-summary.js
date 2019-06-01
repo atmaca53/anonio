@@ -112,7 +112,7 @@ export const Component = ({
         <TotalContainer>
           <TextComponent
             size={theme.fontSize.medium * 2.4}
-            value={`${coinName} ${formatNumber({ value: total })}`}
+            value={`${coinName} ${parseFloat(formatNumber({value: total})).toFixed(3)}`}
             isBold
           />
           <USDValue
@@ -123,7 +123,7 @@ export const Component = ({
         <DetailContainer>
           <ShieldedValue value='SHIELDED' isBold size={theme.fontSize.small} />
           <MiddleLabel
-            value={`${coinName} ${formatNumber({ value: shielded })}`}
+            value={`${coinName} ${parseFloat(formatNumber({value: shielded})).toFixed(3)}`}
             isBold
             size='16px'
           />
@@ -132,7 +132,8 @@ export const Component = ({
         <DetailContainer>
           <DefaultLabel value='TRANSPARENT' isBold size={theme.fontSize.small} />
           <MiddleLabel
-            value={`${coinName} ${formatNumber({ value: transparent })}`}
+            // value={`${coinName} ${formatNumber({ value: transparent })}`}
+            value={`${coinName} ${parseFloat(formatNumber({value: transparent})).toFixed(3)}`}
             isBold
             size='16px'
           />
