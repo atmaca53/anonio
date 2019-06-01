@@ -32,14 +32,14 @@ const ConsoleImg = styled.img`
 `;
 
 const initialLog = `
-  Thank you for running a Anon node!
+  Thank you for running an Anon node!
   You're helping to strengthen the network and contributing to a social good :)
 
   In order to ensure you are adequately protecting your privacy when using Anon, please see <https://z.cash/support/security/>.
 `;
 
 const defaultState = `
-  Thank you for running a Anon node!
+  Thank you for running an Anon node!
   You're helping to strengthen the network and contributing to a social good :)
   In order to ensure you are adequately protecting your privacy when using Anon, please see <https://z.cash/support/security/>.
 

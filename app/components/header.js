@@ -3,6 +3,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import anonLogo from '../assets/images/anon-icon-55.png';
+
 import { AnonLogo } from './anon-logo';
 import { TextComponent } from './text';
 import { Divider } from './divider';
@@ -20,11 +22,11 @@ const Wrapper = styled.div`
 const LogoWrapper = styled.div`
   height: ${props => props.theme.headerHeight};
   width: ${props => props.theme.sidebarWidth};
-  background-image: linear-gradient(
-    to right,
-    ${props => props.theme.colors.sidebarLogoGradientBegin},
-    ${props => props.theme.colors.sidebarLogoGradientEnd}
-  );
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #333;
   margin-bottom: 20px;
 `;
 
@@ -63,7 +65,7 @@ type Props = {
 export const HeaderComponent = ({ title }: Props) => (
   <Wrapper id='header'>
     <LogoWrapper>
-      <AnonLogo />
+      <img src={anonLogo} height='55px' width='55px' alt='Anon Logo' />
     </LogoWrapper>
     <TitleWrapper>
       <TitleRow alignItems='center' justifyContent='space-around'>
