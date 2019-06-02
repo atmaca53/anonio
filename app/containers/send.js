@@ -162,7 +162,12 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
   loadAddresses: async () => {
     const [zAddressesErr, zAddresses] = await eres(rpc.z_listaddresses());
 
-    const [tAddressesErr, transparentAddresses] = await eres(rpc.getaddressesbyaccount(''));
+    const gettaddresses = async () => {
+      const [err, tListUnspent] = await eres(rpc.listunspent())
+      return [err, tListUnspent.filter(t => t.generated === false).map(({address}) => address)]
+    }
+    
+    const [tAddressesErr, transparentAddresses] = await gettaddresses();
 
     if (zAddressesErr || tAddressesErr) return dispatch(loadAddressesError({ error: 'Something went wrong!' }));
 
