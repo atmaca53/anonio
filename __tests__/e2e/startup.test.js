@@ -18,15 +18,19 @@ describe('Startup', () => {
     expect(app.client.getTitle()).resolves.toEqual('Anonio');
   });
 
-  test('should show the text "Anonio Starting" in loading screen', async () => expect(app.client.element('#loading-screen:first-child p').getHTML()).resolves.toEqual(
-    expect.stringContaining('Anonio Starting'),
-  ));
+  test('should show the text "Anonio Starting" in loading screen', async () => {
+    expect(
+      app.client.element('div[data-testid~="LoadingScreen"]:first-child p').getHTML(),
+    ).resolves.toEqual(expect.stringContaining('Anonio Starting'));
+  });
 
-  test('should show the anon logo in loading screen', () => expect(app.client.getAttribute('#loading-screen:first-child img', 'src')).resolves.toEqual(
-    expect.stringContaining('/assets/anon-simple-icon.svg'),
-  ));
+  test('should show the anon logo in loading screen', () => expect(
+    app.client.getAttribute('div[data-testid~="LoadingScreen"]:first-child img', 'src'),
+  ).resolves.toEqual(expect.stringContaining('/assets/anon-simple-icon.svg')));
 
   test('should show the loading circle in loading screen', () => {
-    expect(app.client.element('#loading-screen svg').isExisting()).resolves.toEqual(true);
+    expect(
+      app.client.element('div[data-testid~="LoadingScreen"] svg').isExisting(),
+    ).resolves.toEqual(true);
   });
 });

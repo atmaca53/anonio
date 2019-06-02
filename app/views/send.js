@@ -547,7 +547,7 @@ class Component extends PureComponent<Props, State> {
 
   showModal = (toggle: void => void) => {
     const {
-      from, amount, to, fee,
+     from, amount, to, fee,
     } = this.state;
     // eslint-disable-next-line react/prop-types
     const { isToAddressValid } = this.props;

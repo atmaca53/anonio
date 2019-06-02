@@ -176,8 +176,8 @@ const Component = ({
             <RelativeRowComponent alignItems='center'>
               <Icon src={getIconSrc(type)} alt='Transaction Type Icon' />
               <TransactionColumn>
-                <TransactionTypeLabel isReceived={isReceived} value={type} isBold color={getTextColor(type)}/>
-                <TransactionLabel value={transactionTime} isReceived={isReceived} />
+              <TransactionTypeLabel isReceived={isReceived} value={type} isBold color={getTextColor(type)}/>
+              <TransactionLabel value={transactionTime} isReceived={isReceived} />
               </TransactionColumn>
               {showUnconfirmed && (
                 <UnconfirmedStatusWrapper>

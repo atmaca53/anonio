@@ -154,10 +154,9 @@ const Component = ({
   const isGenerate = type === 'generate';
   const isSent = type === 'sent';
   const isIncoming = isReceived || isImmature || isGenerate;
- 
+
   const receivedIcon = theme.mode === DARK ? ReceivedIconDark : ReceivedIconLight;
   const sentIcon = theme.mode === DARK ? SentIconDark : SentIconLight;
-  const pendingIcon = theme.mode === DARK ? PendingIconDark : PendingIconDark;
   const coinName = getCoinName();
 
 

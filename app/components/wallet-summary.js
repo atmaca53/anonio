@@ -132,7 +132,6 @@ export const Component = ({
         <DetailContainer>
           <DefaultLabel value='TRANSPARENT' isBold size={theme.fontSize.small} />
           <MiddleLabel
-            // value={`${coinName} ${formatNumber({ value: transparent })}`}
             value={`${coinName} ${parseFloat(formatNumber({value: transparent})).toFixed(3)}`}
             isBold
             size='16px'
@@ -142,7 +141,7 @@ export const Component = ({
         <DetailContainer>
           <UnconfirmedLabel value='UNCONFIRMED' isBold size={theme.fontSize.small} />
           <UnconfirmedValue
-            value={`${coinName} ${formatNumber({ value: unconfirmed })}`}
+            value={`${coinName} ${parseFloat(formatNumber({value: unconfirmed})).toFixed(3)}`}
             isBold
             size='16px'
           />
