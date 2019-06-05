@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import styled, { withTheme } from 'styled-components';
 
-import { DARK, LIGHT } from '../constants/themes';
+import { DARK, LIGHT, HOTDOG } from '../constants/themes';
 
 import { TextComponent } from './text';
 

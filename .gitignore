@@ -10,4 +10,4 @@ flow-typed
 .env
 zcashd*
 anond*
-
+flow-coverage-badge.svg

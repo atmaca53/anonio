@@ -9,7 +9,7 @@ import { configureStore, history } from './redux/create';
 import { Router } from './router/container';
 import { appTheme as theme, GlobalStyle } from './theme';
 import electronStore from '../config/electron-store';
-import { DARK, LIGHT, THEME_MODE } from './constants/themes';
+import { DARK, LIGHT, HOTDOG, THEME_MODE } from './constants/themes';
 
 const store = configureStore({});
 
@@ -21,7 +21,11 @@ type State = {
 const getInitialTheme = () => {
   const themeInStore = String(electronStore.get(THEME_MODE));
 
-  if (themeInStore === DARK || themeInStore === LIGHT) return themeInStore;
+  if (
+    themeInStore === DARK || 
+    themeInStore === LIGHT ||
+    themeInStore === HOTDOG
+  ) return themeInStore;
   return DARK;
 };
 

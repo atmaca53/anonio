@@ -20,7 +20,7 @@ import { Clipboard } from '../components/clipboard';
 import { SelectComponent } from '../components/select';
 
 import rpc from '../../services/api';
-import { DARK, LIGHT, THEME_MODE } from '../constants/themes';
+import { DARK, LIGHT, HOTDOG, THEME_MODE } from '../constants/themes';
 import { MAINNET, TESTNET } from '../constants/anon-network';
 import electronStore from '../../config/electron-store';
 import { openExternal } from '../utils/open-external';
@@ -364,7 +364,11 @@ export class SettingsView extends PureComponent<Props, State> {
 
     const { anonNetwork, updateAnonNetwork, embeddedDaemon } = this.props;
 
-    const themeOptions = [{ label: 'Dark', value: DARK }, { label: 'Light', value: LIGHT }];
+    const themeOptions = [
+      { label: 'Dark', value: DARK },
+      { label: 'Light', value: LIGHT },
+      { label: 'Hotdog', value: HOTDOG },
+    ];
 
     const networkOptions = [
       { label: 'Mainnet', value: MAINNET },

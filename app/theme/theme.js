@@ -2,9 +2,9 @@
 
 import theme from 'styled-theming';
 
-import { DARK, LIGHT } from '../constants/themes';
+import { DARK, LIGHT, HOTDOG } from '../constants/themes';
 import { typography } from './typography';
-import { DARK_COLORS, LIGHT_COLORS } from './colors';
+import { DARK_COLORS, LIGHT_COLORS, HOTDOG_COLORS } from './colors';
 
 // Building color object from theme keys
 // All themes must have the same variables as DARK_COLORS
@@ -15,6 +15,7 @@ colorKeys.forEach((key: string) => {
   colors[key] = theme('mode', {
     [LIGHT]: LIGHT_COLORS[key],
     [DARK]: DARK_COLORS[key],
+    [HOTDOG]: HOTDOG_COLORS[key],
   });
 });
 

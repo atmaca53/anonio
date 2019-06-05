@@ -6,3 +6,4 @@ export const THEME_MODE = 'THEME_MODE';
 // Themes
 export const LIGHT = 'LIGHT';
 export const DARK = 'DARK';
+export const HOTDOG = 'HOTDOG';
