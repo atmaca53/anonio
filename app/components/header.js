@@ -13,7 +13,6 @@ import { StatusPillContainer } from '../containers/status-pill';
 
 const Wrapper = styled.div`
   height: ${props => props.theme.headerHeight};
-  width: 100vw;
   display: flex;
   flex-direction: row;
   background-color: ${props => props.theme.colors.background};
@@ -64,9 +63,6 @@ type Props = {
 
 export const HeaderComponent = ({ title }: Props) => (
   <Wrapper id='header'>
-    <LogoWrapper>
-      <img src={anonLogo} height='55px' width='55px' alt='Anon Logo' />
-    </LogoWrapper>
     <TitleWrapper>
       <TitleRow alignItems='center' justifyContent='space-around'>
         <Title value={title} />

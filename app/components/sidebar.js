@@ -5,20 +5,43 @@ import React from 'react';
 import electron from 'electron'; // eslint-disable-line import/no-extraneous-dependencies
 import styled, { withTheme } from 'styled-components';
 import type { Location, RouterHistory } from 'react-router-dom';
+import anonLogo from '../assets/images/anon-icon-55.png';
+import { AnonLogo } from './anon-logo';
 
 import { MENU_OPTIONS } from '../constants/sidebar';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: ${props => props.theme.sidebarWidth};
-  height: ${props => `calc(100vh - ${props.theme.headerHeight})`};
+  height: 100vh;
   font-family: ${props => props.theme.fontFamily};
   background-color: ${props => props.theme.colors.sidebarBg};
   border-right: 1px solid ${props => props.theme.colors.sidebarBorderRight};
-  padding-top: 15px;
   position: relative;
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-grow: 1;
+  width: ${props => props.theme.sidebarWidth};
+  font-family: ${props => props.theme.fontFamily};
+  background-color: ${props => props.theme.colors.sidebarBg};
+  border-right: 1px solid ${props => props.theme.colors.sidebarBorderRight};
+  position: relative;
+`;
+
+const LogoWrapper = styled.div`
+  height: ${props => props.theme.sidebarWidth};
+  width: ${props => props.theme.sidebarWidth};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: ${props => props.theme.colors.sidebarItemHoveredBg};
 `;
 
 const InnerWrapperTop = styled.div`
@@ -134,38 +157,43 @@ export const Component = ({
   embeddedDaemon,
 }: Props) => (
   <Wrapper id='sidebar'>
-    <InnerWrapperTop>
-      {(options || []).map((item) => {
-        const isActive = item.route === '/'
-          ? location.pathname === item.route
-          : location.pathname.startsWith(item.route);
+    <LogoWrapper>
+      <AnonLogo />
+    </LogoWrapper>
+    <MenuWrapper>
+      <InnerWrapperTop>
+        {(options || []).map((item) => {
+          const isActive = item.route === '/'
+            ? location.pathname === item.route
+            : location.pathname.startsWith(item.route);
 
-        if (electron.remote.process.env.NODE_ENV !== 'test') {
-          if (!embeddedDaemon && item.route === '/console') return null;
-        }
+          if (electron.remote.process.env.NODE_ENV !== 'test') {
+            if (!embeddedDaemon && item.route === '/console') return null;
+          }
 
-        return (
-          <StyledLink
-            isActive={isActive}
-            key={item.route}
-            onClick={() => (isActive ? {} : history.push(item.route))}
-          >
-            <Icon isActive={isActive} src={item.icon(isActive, theme.mode)} alt={`${item.route}`} />
-            {item.label}
-          </StyledLink>
-        );
-      })}
-    </InnerWrapperTop>
-    <InnerWrapperBottom>
-      <DetailsItemWrapper>
-        <DetailsItemLabel>Daemon</DetailsItemLabel>
-        <DetailsItemValue>{embeddedDaemon ? 'Built-in' : 'Custom'}</DetailsItemValue>
-      </DetailsItemWrapper>
-      <DetailsItemWrapper>
-        <DetailsItemLabel>Network</DetailsItemLabel>
-        <DetailsItemValue>{anonNetwork}</DetailsItemValue>
-      </DetailsItemWrapper>
-    </InnerWrapperBottom>
+          return (
+            <StyledLink
+              isActive={isActive}
+              key={item.route}
+              onClick={() => (isActive ? {} : history.push(item.route))}
+            >
+              <Icon isActive={isActive} src={item.icon(isActive, theme.mode)} alt={`${item.route}`} />
+              {item.label}
+            </StyledLink>
+          );
+        })}
+      </InnerWrapperTop>
+      <InnerWrapperBottom>
+        <DetailsItemWrapper>
+          <DetailsItemLabel>Daemon</DetailsItemLabel>
+          <DetailsItemValue>{embeddedDaemon ? 'Built-in' : 'Custom'}</DetailsItemValue>
+        </DetailsItemWrapper>
+        <DetailsItemWrapper>
+          <DetailsItemLabel>Network</DetailsItemLabel>
+          <DetailsItemValue>{anonNetwork}</DetailsItemValue>
+        </DetailsItemWrapper>
+      </InnerWrapperBottom>
+    </MenuWrapper>
   </Wrapper>
 );
 

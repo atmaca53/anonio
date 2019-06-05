@@ -47,8 +47,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:precommit && yarn flow:precommit",
-      "pre-push": "yarn flow:generate-coverage-badge && git add ./public/flow-badge.svg ./public/flow-coverage-badge.svg && git commit -m \"type(flow): update flowtype badge\" --no-verify --allow-empty"
     }
   },
   "build": {
