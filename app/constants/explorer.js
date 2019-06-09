@@ -3,5 +3,5 @@
 import { isTestnet } from '../../config/is-testnet';
 
 export const ANON_EXPLORER_BASE_URL = isTestnet()
-  ? 'https://chain.so/tx/ANONTEST/'
+  ? 'http://testnet.anon.community:3001/tx/'
   : 'https://zcha.in/transactions/';
