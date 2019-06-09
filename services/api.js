@@ -20,15 +20,17 @@ const getRPCConfig = () => {
 };
 
 const getMessage = (statusCode: number, isECONNREFUSED: boolean) => {
-  if (isECONNREFUSED) {
-    return 'Anonio could not find a daemon running, please check the logs!';
-  }
+  if (statusCode !== -28) {
+    if (isECONNREFUSED) {
+      return 'Anonio is unable to detect a running daemon, please check you can connect using anon-cli';
+    }
 
-  switch (statusCode) {
-    case 401:
-      return 'Not authorized to access Anon RPC, please check your rpcuser and rpcpassword';
-    default:
-      return 'Something went wrong';
+    switch (statusCode) {
+      case 401:
+        return 'Not authorized to access Anon RPC, please check your rpcuser and rpcpassword';
+      default:
+        return 'Something went wrong';
+    }
   }
 };
 

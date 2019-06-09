@@ -1,6 +1,6 @@
 // @flow
 
-const FONT_FAMILY = 'Roboto';
+const FONT_FAMILY = 'Exo-Medium';
 
 export const typography = {
   fontFamily: FONT_FAMILY,

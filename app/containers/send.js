@@ -164,7 +164,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
 
     const gettaddresses = async () => {
       const [err, tListUnspent] = await eres(rpc.listunspent())
-      return [err, tListUnspent.filter(t => t.generated === false).map(({address}) => address)]
+      const uniqueListUnspent = [...new Set(tListUnspent.filter(t => t.generated === false).map(({address}) => address))]
+
+      return [err, uniqueListUnspent]
     }
     
     const [tAddressesErr, transparentAddresses] = await gettaddresses();

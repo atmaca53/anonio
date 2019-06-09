@@ -28,6 +28,7 @@ import {
 } from '../constants/routes';
 
 const FullWrapper = styled.div`
+  font-family: Exo-Medium;
   display: flex;
   flex-direction: row;
   width: 100%;

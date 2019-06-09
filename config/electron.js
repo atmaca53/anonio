@@ -71,7 +71,7 @@ const createWindow = () => {
   });
 
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   getAnonPrice().then(({ USD }) => store.set('ANON_DOLLAR_PRICE', String(USD)));
 

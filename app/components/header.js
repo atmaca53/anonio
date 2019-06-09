@@ -3,9 +3,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import anonLogo from '../assets/images/anon-icon-55.png';
-
-import { AnonLogo } from './anon-logo';
 import { TextComponent } from './text';
 import { Divider } from './divider';
 import { RowComponent } from './row';
@@ -16,17 +13,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${props => props.theme.colors.background};
-`;
-
-const LogoWrapper = styled.div`
-  height: ${props => props.theme.headerHeight};
-  width: ${props => props.theme.sidebarWidth};
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  background-color: #333;
-  margin-bottom: 20px;
 `;
 
 const TitleWrapper = styled.div`
