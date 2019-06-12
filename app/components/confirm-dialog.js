@@ -118,7 +118,7 @@ export const ConfirmDialogComponent = ({
               <Btn
                 id='confirm-modal-button'
                 label='Confirm'
-                onClick={() => onConfirm(handleClose(toggle))}
+               onClick={() => onConfirm()}
                 isLoading={isLoading}
               />
               <Btn

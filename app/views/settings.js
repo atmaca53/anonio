@@ -36,13 +36,13 @@ const IMPORT_PRIV_KEYS_CONTENT = 'Importing private keys will add the spendable 
 const IMPORT_PRIV_KEYS_CONTENT_MODAL = 'Paste your private keys here, one per line. These spending keys will be imported into your wallet.';
 const IMPORT_PRIV_KEYS_SUCCESS_CONTENT = 'Private keys imported in your wallet. Any spendable coins should now be available.';
 const EXPORT_PRIV_KEYS_TITLE = 'Export Private Keys';
-const EXPORT_PRIV_KEYS_CONTENT = 'Beware: exporting your private keys will allow anyone controlling them to spend your coins. Only perform this action on a trusted machine.';
+let EXPORT_PRIV_KEYS_CONTENT = 'Beware: exporting your private keys will allow anyone controlling them to spend your coins. Only perform this action on a trusted machine.';
 const BACKUP_WALLET_TITLE = 'Backup Wallet';
 const BACKUP_WALLET_CONTENT = 'It is recommended that you backup your wallet often to avoid possible issues arising from data corruption.';
 const CONFIRM_RELAUNCH_CONTENT = "You'll need to restart the application and the internal full node. Are you sure you want to do this?";
 const RUNNING_NON_EMBEDDED_DAEMON_WARNING = 'You are using a separate anond process, in order to change the network, you need to restart the process yourself';
 
-const SHIELDED_ADDRESS_PRIVATE_KEY_PREFIX = isTestnet() ? 'secret-extended-key' : 'SK';
+const SHIELDED_ADDRESS_PRIVATE_KEY_PREFIX = isTestnet() ? 'ST' : 'SK';
 
 const Wrapper = styled.div`
   margin-top: ${props => props.theme.layoutContentPaddingTop};
@@ -264,26 +264,23 @@ export class SettingsView extends PureComponent<Props, State> {
   };
 
   exportPrivateKeys = async () => {
-    const { addresses } = this.props;
 
-    this.setState({ isLoading: true });
+   this.setState({ isLoading: true });
 
-    const privateKeys = await Promise.all(
-      addresses.map(async ({ address }) => {
-        const [error, privateKey] = await eres(
-          address.startsWith('z') ? rpc.z_exportkey(address) : rpc.dumpprivkey(address),
-        );
+    const exportFileName = `${dateFns.format(
+      new Date(),
+      'YYYYMMDDHHmmss',
+    )}AnonExport`;
 
-        if (error || !privateKey) return null;
 
-        return { zAddress: address, key: privateKey };
-      }),
-    );
+    let exportPath = await rpc.z_exportwallet(exportFileName)
+
+    EXPORT_PRIV_KEYS_CONTENT = `Keys have been exported in this session to ${exportPath}`;
 
     this.setState({
       // $FlowFixMe
-      privateKeys: privateKeys.filter(Boolean),
-      successExportPrivateKeys: true,
+      // privateKeys: privateKeys.filter(Boolean),
+       successExportPrivateKeys: true,
       isLoading: false,
     });
   };
@@ -458,6 +455,7 @@ export class SettingsView extends PureComponent<Props, State> {
 
         <SettingsWrapper>
           <ConfirmDialogComponent
+            showSingleConfirmButton='true'
             title={EXPORT_PRIV_KEYS_TITLE}
             renderTrigger={toggleVisibility => (
               <SettingsInnerWrapper>
@@ -470,12 +468,13 @@ export class SettingsView extends PureComponent<Props, State> {
               this.exportPrivateKeys();
             }}
             showButtons={!successExportPrivateKeys}
+            showSingleConfirmButton={!successExportPrivateKeys}
             width={550}
             onClose={this.resetState}
           >
             {() => (
               <ModalContent>
-                {successExportPrivateKeys ? (
+                {false ? (
                   privateKeys.map(({ zAddress, key }, index) => (
                     <div key={zAddress}>
                       <ViewKeyHeader>
