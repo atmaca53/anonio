@@ -60,7 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       async (address) => {
         const [err, response] = await eres(rpc.z_getbalance(address));
 
-        if (!err && new BigNumber(response).isGreaterThan(0)) return { address, balance: response };
+        if (!err && new BigNumber(response).isGreaterThan(-1)) return { address, balance: response };
 
         return null;
       },
