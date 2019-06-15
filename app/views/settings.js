@@ -285,7 +285,7 @@ export class SettingsView extends PureComponent<Props, State> {
     });
   };
 
-  importPrivateKeys = () => {
+   importPrivateKeys = () => {
     const { importedPrivateKeys } = this.state;
 
     if (!importedPrivateKeys) return;
@@ -455,7 +455,7 @@ export class SettingsView extends PureComponent<Props, State> {
 
         <SettingsWrapper>
           <ConfirmDialogComponent
-            showSingleConfirmButton='true'
+            confirmButtonText='Export now'
             title={EXPORT_PRIV_KEYS_TITLE}
             renderTrigger={toggleVisibility => (
               <SettingsInnerWrapper>
@@ -468,7 +468,6 @@ export class SettingsView extends PureComponent<Props, State> {
               this.exportPrivateKeys();
             }}
             showButtons={!successExportPrivateKeys}
-            showSingleConfirmButton={!successExportPrivateKeys}
             width={550}
             onClose={this.resetState}
           >

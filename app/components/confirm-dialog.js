@@ -71,6 +71,7 @@ type Props = {
   showButtons?: boolean,
   showSingleConfirmButton?: boolean,
   singleConfirmButtonText?: string,
+  confirmButtonText?: string,
   width?: number,
   isLoading?: boolean,
   isVisible?: boolean,
@@ -86,6 +87,7 @@ export const ConfirmDialogComponent = ({
   showButtons,
   showSingleConfirmButton,
   singleConfirmButtonText,
+  confirmButtonText,
   isLoading,
   isVisible,
   width,
@@ -117,8 +119,8 @@ export const ConfirmDialogComponent = ({
             <ButtonWrapper>
               <Btn
                 id='confirm-modal-button'
-                label='Confirm'
-               onClick={() => onConfirm()}
+                label={String(confirmButtonText)}
+                onClick={() => onConfirm()}
                 isLoading={isLoading}
               />
               <Btn
@@ -148,6 +150,7 @@ export const ConfirmDialogComponent = ({
 ConfirmDialogComponent.defaultProps = {
   showButtons: true,
   showSingleConfirmButton: false,
+  confirmButtonText: 'Confirm',
   singleConfirmButtonText: 'Ok!',
   width: 460,
   isLoading: false,
