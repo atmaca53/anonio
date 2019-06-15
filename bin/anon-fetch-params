@@ -6,12 +6,28 @@ set -eu
 if [[ "$OSTYPE" == "darwin"* ]]; then
   if [ ! -e "$HOME/Library/Application Support/Anon/anon.conf" ] ; then
     mkdir -p "$HOME/Library/Application Support/Anon"
-    echo "server=1" > "$HOME/Library/Application Support/Anon/anon.conf"
+    cat << EOF > "$HOME/Library/Application Support/Anon/anon.conf"
+rpcuser=anonuser
+rpcpassword=anonpass
+rpcallowip=127.0.0.1
+testnet=1
+txindex=1
+server=1
+EOF
+#    echo "server=1" > "$HOME/Library/Application Support/Anon/anon.conf"
   fi
 else
   if [ ! -e "$HOME/.anon/anon.conf" ] ; then
     mkdir -p "$HOME/.anon" 
-    echo "server=1" > "$HOME/.anon/anon.conf"
+    cat << EOF > "$HOME/.anon/anon.conf"
+rpcuser=anonuser
+rpcpassword=anonpass
+rpcallowip=127.0.0.1
+testnet=1
+txindex=1
+server=1
+EOF
+    # echo "server=1" > "$HOME/.anon/anon.conf"
   fi
 fi
 

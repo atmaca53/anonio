@@ -10,11 +10,11 @@ IF NOT EXIST %AppData%\ZcashParams (
 
 IF NOT EXIST %AppData%\Anon\anon.conf (
    (
-    echo addnode=mainnet.z.cash 
-    echo rpcuser=username 
-    echo rpcpassword=password%random%%random%
-    echo daemon=1 
-    echo showmetrics=0 
-    echo gen=0 
+    echo rpcuser=anonuser
+    echo rpcpassword=anonpass
+    echo rpcallowip=127.0.0.1
+    echo testnet=1
+    echo txindex=1
+    echo server=1
 ) > %AppData%\Anon\anon.conf
 ) 
