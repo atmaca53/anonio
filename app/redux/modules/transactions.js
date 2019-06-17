@@ -22,7 +22,7 @@ export const loadTransactionsSuccess = ({
   anonPrice,
   hasNextPage,
 }: {
-  list: Transaction[],
+  list: TransactionsList,
   anonPrice: number,
   hasNextPage: boolean,
 }) => ({

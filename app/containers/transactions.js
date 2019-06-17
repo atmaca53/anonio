@@ -53,17 +53,19 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     dispatch(loadTransactions());
 
     const [transactionsErr, transactions = []] = await eres(
-      rpc.listtransactions('', count, offset),
+      rpc.listtransactions('', 1000, offset),
     );
 
     if (transactionsErr) {
       return dispatch(loadTransactionsError({ error: transactionsErr.message }));
     }
 
+    const transfilter = transactions.filter(t => t.category === 'receive' || t.category === 'send')
+
     const formattedTransactions = sortByDescend('date')(
       [
-        ...transactions,
-        ...listShieldedTransactions({ count, offset: shieldedTransactionsCount }),
+        ...transfilter,
+        ...await listShieldedTransactions(),
       ].map(transaction => ({
         confirmations: transaction.confirmations !== undefined ? transaction.confirmations : 0,
         confirmed:

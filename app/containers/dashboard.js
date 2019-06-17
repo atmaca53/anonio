@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     const [walletErr, walletSummary] = await eres(rpc.z_gettotalbalance());
     const [zAddressesErr, zAddresses = []] = await eres(rpc.z_listaddresses());
     const [tAddressesErr, tAddresses = []] = await eres(rpc.getaddressesbyaccount(''));
-    const [transactionsErr, transactions] = await eres(rpc.listtransactions());
+    const [transactionsErr, transactions] = await eres(rpc.listtransactions('', 1000, 0));
     const [unconfirmedBalanceErr, unconfirmedBalance] = await eres(rpc.getunconfirmedbalance());
 
     if (walletErr || zAddressesErr || tAddressesErr || transactionsErr || unconfirmedBalanceErr) {
@@ -55,6 +55,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         }),
       );
     }
+
+    const transfilter = transactions.filter(t => t.category === 'receive' || t.category === 'send')
 
     const formattedTransactions: Array<Object> = flow([
       arr => arr.map(transaction => ({
@@ -74,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-    ])([...transactions, ...listShieldedTransactions()]);
+    ])([...transfilter, ...await listShieldedTransactions()]);
 
     if (!zAddresses.length) {
       const [, newZAddress] = await eres(rpc.z_getnewaddress());
