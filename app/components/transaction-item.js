@@ -144,9 +144,9 @@ const Component = ({
   const getIconSrc = (state) => {
     return (
       {
-        receive:  ReceivedIconDark,
+        receive:  receivedIcon,
         generate: ReceivedIconDark,
-        send:     SentIconDark,
+        send:     sentIcon,
         immature: PendingIconDark
       }[state]
     );
