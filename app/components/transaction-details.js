@@ -24,7 +24,7 @@ import { openExternal } from '../utils/open-external';
 import { getCoinName } from '../utils/get-coin-name';
 
 const Wrapper = styled.div`
-  width: 460px;
+  width: 100%;
   background-color: ${props => props.theme.colors.transactionDetailsBg};
   display: flex;
   flex-direction: column;
@@ -110,6 +110,15 @@ const Ellipsis = styled(TextComponent)`
   width: 100%;
 `;
 
+const TransactionDetailsAddress = styled(TextComponent)`
+  color: ${props => props.theme.colors.transactionItemAddress};
+  white-space: nowrap;
+
+  ${String(Wrapper)}:hover & {
+    color: ${props => props.theme.colors.transactionItemAddressHover};
+  }
+`;
+
 const TransactionId = styled.button`
   width: 100%;
   color: ${props => props.theme.colors.text};
@@ -130,11 +139,13 @@ type Props = {
   anonPrice: number,
   date: string,
   transactionId: string,
-  address: string,
+  fromaddress: string,
+  toaddress: string,
   handleClose: () => void,
   theme: AppTheme,
   confirmed: boolean,
   confirmations: number,
+  memo: String,
 };
 
 const Component = ({
@@ -143,11 +154,13 @@ const Component = ({
   anonPrice,
   date,
   transactionId,
-  address,
+  fromaddress,
+  toaddress,
   handleClose,
   theme,
   confirmed,
   confirmations,
+  memo,
 }: Props) => {
   const isReceived = type === 'receive';
   const isImmature = type === 'immature';
@@ -241,9 +254,21 @@ const Component = ({
       <InfoRow>
         <ColumnComponent width='100%'>
           <Label value='Address' />
-          <Ellipsis value={address} />
+          {(fromaddress.length > 35 || fromaddress != '(Shielded)') && (
+            <TransactionDetailsAddress value={`from : ${fromaddress}`} />
+          )}
+          <TransactionDetailsAddress value={`to : ${toaddress}`} />
         </ColumnComponent>
       </InfoRow>
+      <Divider />
+      {memo.length > 0 && (
+        <InfoRow>
+          <ColumnComponent width='100%'>
+            <Label value='Memo' />
+            <Ellipsis value={memo} />
+          </ColumnComponent>
+        </InfoRow>
+      )}
     </Wrapper>
   );
 };

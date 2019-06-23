@@ -53,31 +53,52 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     dispatch(loadTransactions());
 
     const [transactionsErr, transactions = []] = await eres(
-      rpc.listtransactions('', 1000, offset),
+      rpc.listtransactions('', 100, offset),
     );
 
     if (transactionsErr) {
       return dispatch(loadTransactionsError({ error: transactionsErr.message }));
     }
 
-    const transfilter = transactions.filter(t => t.category === 'receive' || t.category === 'send')
+    const arrTransparentTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
+      confirmations: e.confirmations,
+      txid: e.txid,
+      category: e.category,
+      time: e.time,
+      toaddress: e.address,
+      amount: e.amount,
+    }})
+
+    const formatMemo = (m) => {
+      m = m.replace(/[0]+$/,'')
+      if (m === "f6") return ''
+      m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
+      return String.fromCharCode.apply(String, m)
+    }
 
     const formattedTransactions = sortByDescend('date')(
       [
-        ...transfilter,
+        ...arrTransparentTxs,
         ...await listShieldedTransactions(),
       ].map(transaction => ({
-        confirmations: transaction.confirmations !== undefined ? transaction.confirmations : 0,
-        confirmed:
-          transaction.confirmations !== undefined
-            ? transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER
-            : true,
+        confirmations: transaction.confirmations !== undefined
+          ? transaction.confirmations
+          : 0,
+        confirmed: transaction.confirmations !== undefined
+          ? transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER
+          : true,
         transactionId: transaction.txid,
         type: transaction.category,
         date: new Date(transaction.time * 1000).toISOString(),
-        address: transaction.address || '(Shielded)',
+        fromaddress: transaction.fromaddress || '(Shielded)',
+        toaddress: transaction.toaddress || '(Shielded)',
         amount: new BigNumber(transaction.amount).absoluteValue().toNumber(),
-        fees: transaction.fee ? new BigNumber(transaction.fee).abs().toFormat(4) : 'N/A',
+        fees: transaction.fee
+          ? new BigNumber(transaction.fee).abs().toFormat(4)
+          : 'N/A',
+        memo: transaction.memo
+          ? formatMemo(transaction.memo)
+          : ''
       })),
     );
 

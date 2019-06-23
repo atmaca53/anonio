@@ -110,12 +110,14 @@ export class TransactionsView extends PureComponent<Props> {
         <TransactionItemComponent
           confirmed={transaction.confirmed}
           confirmations={transaction.confirmations}
-          address={transaction.address}
+          toaddress={transaction.toaddress}
+          fromaddress={transaction.fromaddress}
           amount={transaction.amount}
           date={transaction.date}
           transactionId={transaction.transactionId}
           type={transaction.type}
           anonPrice={anonPrice}
+          memo={transaction.memo}
         />
       ),
       index,

@@ -6,11 +6,12 @@ import dateFns from 'date-fns';
 
 import { DARK } from '../constants/themes';
 
+import ReceivedIconDark from '../assets/images/transaction_received_icon_dark.svg';
+import ReceivedIconLight from '../assets/images/transaction_received_icon_light.svg';
+import SentIconLight from '../assets/images/transaction_sent_icon_light.svg';
 import SentIconDark from '../assets/images/transaction_sent_icon_dark.svg';
 import PendingIconDark from '../assets/images/transaction_pending_icon_dark.svg';
-import ReceivedIconDark from '../assets/images/transaction_received_icon_dark.svg';
-import SentIconLight from '../assets/images/transaction_sent_icon_light.svg';
-import ReceivedIconLight from '../assets/images/transaction_received_icon_light.svg';
+import MemoIcon from '../assets/images/info-iconb.png';
 import UnconfirmedLight from '../assets/images/unconfirmed_light.svg';
 import UnconfirmedDark from '../assets/images/unconfirmed_dark.svg';
 
@@ -52,6 +53,7 @@ const TransactionTypeLabel = styled(TextComponent)`
 
 const TransactionAddress = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionItemAddress};
+  white-space: nowrap;
 
   ${String(Wrapper)}:hover & {
     color: ${props => props.theme.colors.transactionItemAddressHover};
@@ -60,15 +62,19 @@ const TransactionAddress = styled(TextComponent)`
 
 const TransactionLabel = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionLabelText};
+  white-space: nowrap;
 
   ${String(Wrapper)}:hover & {
     color: ${props => props.theme.colors.transactionLabelTextHovered};
   }
 `;
 
+const TransactionAmounts = styled(TextComponent)`
+  white-space:nowrap
+`;
+
 const TransactionColumn = styled(ColumnComponent)`
-  margin-left: 10px;
-  margin-right: 80px;
+  margin-left: 5px;
   min-width: 60px;
 `;
 
@@ -96,11 +102,13 @@ export type Transaction = {
   confirmations: number,
   type: 'send' | 'receive',
   date: string,
-  address: string,
+  fromaddress: string,
+  toaddress: String,
   amount: number,
   anonPrice: number,
   transactionId: string,
   theme: AppTheme,
+  memo: string,
 };
 
 const Component = ({
@@ -108,11 +116,13 @@ const Component = ({
   confirmations,
   type,
   date,
-  address,
+  fromaddress,
+  toaddress,
   amount,
   anonPrice,
   transactionId,
   theme,
+  memo,
 }: Transaction) => {
   const coinName = getCoinName();
 
@@ -147,7 +157,8 @@ const Component = ({
         receive:  receivedIcon,
         generate: ReceivedIconDark,
         send:     sentIcon,
-        immature: PendingIconDark
+        immature: PendingIconDark,
+        memo: MemoIcon,
       }[state]
     );
   }
@@ -174,10 +185,10 @@ const Component = ({
         >
           <RowComponent alignItems='center'>
             <RelativeRowComponent alignItems='center'>
-              <Icon src={getIconSrc(type)} alt='Transaction Type Icon' />
+              <Icon src={`${memo ? getIconSrc('memo') : getIconSrc(type)}`} alt='Transaction Type Icon' />
               <TransactionColumn>
-              <TransactionTypeLabel isReceived={isReceived} value={type} isBold color={getTextColor(type)}/>
-              <TransactionLabel value={transactionTime} isReceived={isReceived} />
+                <TransactionTypeLabel isReceived={isReceived} value={type} isBold color={getTextColor(type)}/>
+                <TransactionLabel value={transactionTime} isReceived={isReceived} />
               </TransactionColumn>
               {showUnconfirmed && (
                 <UnconfirmedStatusWrapper>
@@ -185,10 +196,15 @@ const Component = ({
                 </UnconfirmedStatusWrapper>
               )}
             </RelativeRowComponent>
-            <TransactionAddress value={address} />
+            <TransactionColumn>
+              {(fromaddress.length > 35 || fromaddress != '(Shielded)') && (
+                <TransactionAddress value={`from : ${fromaddress}`} />
+              )}
+              <TransactionAddress value={`to : ${toaddress}`} />
+            </TransactionColumn>
           </RowComponent>
           <ColumnComponent alignItems='flex-end'>
-            <TextComponent
+            <TransactionAmounts
               isBold
               value={transactionValueInAnon}
               color={getTextColor(type)}
@@ -202,13 +218,15 @@ const Component = ({
         <TransactionDetailsComponent
           amount={amount}
           date={date}
-          address={address}
+          fromaddress={fromaddress}
+          toaddress={toaddress}
           confirmed={confirmed}
           confirmations={confirmations}
           transactionId={transactionId}
           handleClose={toggleVisibility}
           type={type}
           anonPrice={anonPrice}
+          memo={memo}
         />
       )}
     </ModalComponent>

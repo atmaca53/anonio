@@ -56,18 +56,42 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       );
     }
 
-    const transfilter = transactions.filter(t => t.category === 'receive' || t.category === 'send')
+    const arrTransparentTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
+      confirmations: e.confirmations,
+      txid: e.txid,
+      category: e.category,
+      time: e.time,
+      toaddress: e.address,
+      amount: e.amount,
+    }})
+
+    const formatMemo = (m) => {
+      m = m.replace(/[0]+$/,'')
+      if (m === "f6") return ''
+      m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
+      return String.fromCharCode.apply(String, m)
+    }
 
     const formattedTransactions: Array<Object> = flow([
       arr => arr.map(transaction => ({
-        confirmed: transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER,
-        confirmations: transaction.confirmations,
+        confirmations: transaction.confirmations !== undefined
+          ? transaction.confirmations
+          : 0,
+        confirmed: transaction.confirmations !== undefined
+          ? transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER
+          : true,
         transactionId: transaction.txid,
         type: transaction.category,
         date: new Date(transaction.time * 1000).toISOString(),
-        address: transaction.address || '(Shielded)',
-        amount: Math.abs(transaction.amount),
-        fees: transaction.fee ? new BigNumber(transaction.fee).abs().toFormat(4) : 'N/A',
+        fromaddress: transaction.fromaddress || '(Shielded)',
+        toaddress: transaction.toaddress || '(Shielded)',
+        amount: new BigNumber(transaction.amount).absoluteValue().toNumber(),
+        fees: transaction.fee
+          ? new BigNumber(transaction.fee).abs().toFormat(4)
+          : 'N/A',
+        memo: transaction.memo
+          ? formatMemo(transaction.memo)
+          : ''
       })),
       arr => groupBy(arr, obj => dateFns.format(obj.date, 'MMM DD, YYYY')),
       obj => Object.keys(obj).map(day => ({
@@ -76,7 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-    ])([...transfilter, ...await listShieldedTransactions()]);
+    ])([...arrTransparentTxs, ...await listShieldedTransactions()]);
 
     if (!zAddresses.length) {
       const [, newZAddress] = await eres(rpc.z_getnewaddress());

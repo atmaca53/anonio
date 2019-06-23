@@ -121,7 +121,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
             txid: operationStatus.result.txid,
             category: 'send',
             time: Date.now() / 1000,
-            address: '(Shielded)',
+            toaddress: to,
+            fromaddress: from,
             amount: new BigNumber(amount).toNumber(),
             memo,
           });

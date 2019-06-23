@@ -39,18 +39,20 @@ export const TransactionDailyComponent = ({ transactionsDate, transactions, anon
     <TransactionsWrapper>
       {transactions.map(
         ({
-          date, type, address, amount, transactionId, confirmed, confirmations,
+          date, type, fromaddress, toaddress, amount, transactionId, confirmed, confirmations, memo
         }) => (
-          <Fragment key={`${address}-${type}-${amount}-${date}`}>
+          <Fragment key={`${fromaddress}-${type}-${amount}-${date}`}>
             <TransactionItemComponent
               confirmations={confirmations}
               confirmed={confirmed}
               transactionId={transactionId}
               type={type}
               date={date}
-              address={address || 'N/A'}
+              fromaddress={fromaddress || 'N/A'}
+              toaddress={toaddress || 'N/A'}
               amount={amount}
               anonPrice={anonPrice}
+              memo={memo}
             />
           </Fragment>
         ),
