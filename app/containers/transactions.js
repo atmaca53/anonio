@@ -76,6 +76,14 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       return String.fromCharCode.apply(String, m)
     }
 
+    const formatFromAddress = (a, m) => {
+      m = m.replace(/[0]+$/,'')
+      if (m === "f6") return ''
+      m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
+      if (String.fromCharCode.apply(String, m).match(/^(zt)/)){ return String.fromCharCode.apply(String, m) }
+      return a
+    }
+
     const formattedTransactions = sortByDescend('date')(
       [
         ...arrTransparentTxs,
@@ -90,12 +98,15 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
         transactionId: transaction.txid,
         type: transaction.category,
         date: new Date(transaction.time * 1000).toISOString(),
-        fromaddress: transaction.fromaddress || '(Shielded)',
+        fromaddress: transaction.fromaddress
+          ? formatFromAddress(transaction.fromaddress, transaction.memo)
+          : '(Shielded)',
         toaddress: transaction.toaddress || '(Shielded)',
         amount: new BigNumber(transaction.amount).absoluteValue().toNumber(),
         fees: transaction.fee
           ? new BigNumber(transaction.fee).abs().toFormat(4)
           : 'N/A',
+        isRead: transaction.isRead,
         memo: transaction.memo
           ? formatMemo(transaction.memo)
           : ''

@@ -23,6 +23,13 @@ import { formatNumber } from '../utils/format-number';
 import { openExternal } from '../utils/open-external';
 import { getCoinName } from '../utils/get-coin-name';
 
+import electronStore from '../../config/electron-store';
+import { MAINNET, TESTNET } from '../../app/constants/anon-network';
+import { isTestnet } from '../../config/is-testnet';
+
+const getStoreKey = () => `SHIELDED_TRANSACTIONS_${isTestnet() ? TESTNET : MAINNET}`;
+const STORE_KEY = getStoreKey();
+
 const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme.colors.transactionDetailsBg};
@@ -113,10 +120,19 @@ const Ellipsis = styled(TextComponent)`
 const TransactionDetailsAddress = styled(TextComponent)`
   color: ${props => props.theme.colors.transactionItemAddress};
   white-space: nowrap;
+  user-select: text;
 
   ${String(Wrapper)}:hover & {
     color: ${props => props.theme.colors.transactionItemAddressHover};
   }
+`;
+
+const TransactionDetailsMemo = styled(TextComponent)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  user-select: text;
 `;
 
 const TransactionId = styled.button`
@@ -188,6 +204,22 @@ const Component = ({
     );
   }
 
+  const saveClose = () => {
+    const txStore = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : [])
+
+    txStore.map(obj => {
+      if (obj.txid === transactionId &&
+          obj.category === type &&
+          obj.amount === amount) {
+        obj.isRead = true;
+      }
+    })
+
+    electronStore.set(STORE_KEY, txStore)
+
+    handleClose()
+  }
+
   const getTextColor = (state) => {
     return (
       {
@@ -202,7 +234,7 @@ const Component = ({
   return (
     <Wrapper>
       <CloseIconWrapper>
-        <CloseIconImg src={CloseIcon} onClick={handleClose} />
+        <CloseIconImg src={CloseIcon} onClick={saveClose} />
       </CloseIconWrapper>
       <TitleWrapper>
         <TextComponent value='Transaction Details' align='center' />
@@ -232,14 +264,16 @@ const Component = ({
           <Label value='DATE' />
           <TextComponent value={dateFns.format(new Date(date), 'MMMM D, YYYY HH:MMA')} />
         </ColumnComponent>
-        <ColumnComponent>
-          <TextComponent
-            value='Confirmations'
-            isBold
-            color={theme.colors.transactionDetailsLabel({ theme })}
-          />
-          <TextComponent value={String(confirmationValue)} />
-        </ColumnComponent>
+        {confirmations > 0 && (
+          <ColumnComponent>
+            <TextComponent
+              value='Confirmations'
+              isBold
+              color={theme.colors.transactionDetailsLabel({ theme })}
+            />
+            <TextComponent value={String(confirmationValue)} />
+          </ColumnComponent>
+        )}
       </InfoRow>
       <Divider />
       <InfoRow>
@@ -265,7 +299,7 @@ const Component = ({
         <InfoRow>
           <ColumnComponent width='100%'>
             <Label value='Memo' />
-            <Ellipsis value={memo} />
+            <TransactionDetailsMemo value={memo} />
           </ColumnComponent>
         </InfoRow>
       )}

@@ -8,6 +8,7 @@ import { TextComponent } from './text';
 
 const Wrapper = styled.div`
   margin-top: 20px;
+  width: 100%;
 `;
 
 const TransactionsWrapper = styled.div`
@@ -39,7 +40,7 @@ export const TransactionDailyComponent = ({ transactionsDate, transactions, anon
     <TransactionsWrapper>
       {transactions.map(
         ({
-          date, type, fromaddress, toaddress, amount, transactionId, confirmed, confirmations, memo
+          date, type, fromaddress, toaddress, amount, transactionId, confirmed, confirmations, isRead, memo
         }) => (
           <Fragment key={`${fromaddress}-${type}-${amount}-${date}`}>
             <TransactionItemComponent
@@ -52,6 +53,7 @@ export const TransactionDailyComponent = ({ transactionsDate, transactions, anon
               toaddress={toaddress || 'N/A'}
               amount={amount}
               anonPrice={anonPrice}
+              isRead={isRead}
               memo={memo}
             />
           </Fragment>

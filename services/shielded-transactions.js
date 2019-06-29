@@ -67,6 +67,7 @@ const zListReceivedByAddressAll = (async () => {
       if (!zSendTransactions.some(z => (z.fromaddress === zAddr && z.txid === txZAddr.txid)))
       {
         zReceivedByTransactions.push({
+          confirmations: txTime.confirmations,
           txid: txZAddr.txid,
           category: "receive",
           time: txTime.time,
@@ -79,8 +80,9 @@ const zListReceivedByAddressAll = (async () => {
     }
   }
   //group notes to give single total
-  txNoteMerge = await Object.values([...zReceivedByTransactions].reduce((tx, { txid, category, time, toaddress, fromaddress, memo, amount }) => {
-    tx[txid] = { txid, category, time, toaddress, fromaddress, memo, amount : (tx[txid] ? tx[txid].amount : 0) + amount  };
+  txNoteMerge = await Object.values([...zReceivedByTransactions]
+    .reduce((tx, { confirmations, txid, category, time, toaddress, fromaddress, memo, amount }) => {
+    tx[txid] = { confirmations, txid, category, time, toaddress, fromaddress, memo, amount : (tx[txid] ? tx[txid].amount : 0) + amount  };
     return tx;
   }, {}));
 })
@@ -98,10 +100,32 @@ export const listShieldedTransactions = async (
   zReceivedByTransactions=[]
 
   const transSend = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []).filter(t => t.category === 'send')
-
+  const transRcv = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []).filter(t => t.category === 'receive')
   await zListReceivedByAddressAll();
 
-  trans = [...transSend, ...txNoteMerge].sort((a, b) => (a.time > b.time) ? 1 : -1)
+//this merges to include the isRead prop and is used for display
+const txReceivedByMerge = txNoteMerge.map((receivedBy)=>
+    Object.assign({}, receivedBy, transRcv.find((txRcvStore)=>
+      txRcvStore.txid===receivedBy.txid && 
+      txRcvStore.amount===receivedBy.amount &&
+      txRcvStore.category===receivedBy.category)||{}))
+
+//confirmations are excluded from store
+const forStore = txReceivedByMerge.map(t=>({
+  amount: t.amount,
+  category: t.category,
+  fromaddress: t.fromaddress,
+  isRead: t.isRead,
+  memo: t.memo,
+  time: t.time,
+  toaddress: t.toaddress,
+  txid: t.txid
+}))
+
+  trans = [...transSend, ...txReceivedByMerge].sort((a, b) => (a.time > b.time) ? 1 : -1)
+
+  //update electron store
+  electronStore.set(STORE_KEY, [...transSend, ...forStore])
 
   if (!pagination) return trans;
 
