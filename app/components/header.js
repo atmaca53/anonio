@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   height: ${props => props.theme.headerHeight};
   display: flex;
   flex-direction: row;
+  width: 100%;
   background-color: ${props => props.theme.colors.background};
 `;
 

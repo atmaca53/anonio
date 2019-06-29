@@ -37,7 +37,9 @@ const FullWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw
+  width: 100vw;
+  align-items: center;
+  min-width: 0;
 `;
 
 const getTitle = (path: string) => {

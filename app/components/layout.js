@@ -10,10 +10,11 @@ const Layout = styled.div`
   flex-direction: column;
   height: ${props => `calc(100vh - ${props.theme.headerHeight})`};
   background-color: ${props => props.theme.colors.background};
-  padding-left: ${props => props.theme.layoutPaddingLeft};
-  padding-right: ${props => props.theme.layoutPaddingRight};
+  width: 100%;
   overflow: auto;
   padding-bottom: 20px;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   ::-webkit-scrollbar {
     display: none;

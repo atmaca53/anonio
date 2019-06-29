@@ -44,8 +44,17 @@ const RUNNING_NON_EMBEDDED_DAEMON_WARNING = 'You are using a separate anond proc
 
 const SHIELDED_ADDRESS_PRIVATE_KEY_PREFIX = isTestnet() ? 'ST' : 'SK';
 
+const OuterWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+`;
+
 const Wrapper = styled.div`
   margin-top: ${props => props.theme.layoutContentPaddingTop};
+  width: 100%;
 `;
 
 const ModalContent = styled.div`
@@ -71,10 +80,8 @@ const ClipboardButton = styled(Clipboard)`
 `;
 
 const SettingsWrapper = styled.div`
-  min-width: 200px;
-  width: 70%;
-  max-width: 600px;
-  min-width: 350px;
+  min-width: 0;
+  width: 100%;
   background: ${props => props.theme.colors.settingsCardBg};
   padding: 20px 20px 10px 20px;
   border: 1px solid ${props => props.theme.colors.inputBorder};
@@ -368,174 +375,176 @@ export class SettingsView extends PureComponent<Props, State> {
     ];
 
     const networkOptions = [
-      { label: 'Mainnet', value: MAINNET },
+      // { label: 'Mainnet', value: MAINNET },
       { label: 'Testnet', value: TESTNET },
     ];
 
     return (
-      <Wrapper>
-        {embeddedDaemon && (
-          <ConfirmDialogComponent
-            title='Confirm'
-            onConfirm={() => updateAnonNetwork(anonNetwork === MAINNET ? TESTNET : MAINNET)}
-            showButtons={embeddedDaemon}
-            renderTrigger={toggleVisibility => (
-              <ThemeSelectWrapper>
-                <SettingsTitle value='Anon Network' />
-                <SelectComponent
-                  onChange={value => (anonNetwork !== value ? toggleVisibility() : undefined)}
-                  value={anonNetwork}
-                  options={networkOptions}
-                />
-              </ThemeSelectWrapper>
-            )}
-          >
-            {() => (
-              <ModalContent>
-                <TextComponent
-                  value={
-                    embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
-                  }
-                />
-              </ModalContent>
-            )}
-          </ConfirmDialogComponent>
-        )}
-        <ThemeSelectWrapper>
-          <SettingsTitle value='Theme' />
-          <SelectComponent
-            onChange={newMode => electronStore.set(THEME_MODE, newMode)}
-            value={electronStore.get(THEME_MODE)}
-            options={themeOptions}
-          />
-        </ThemeSelectWrapper>
-        {/* Hidden due to Sapling inability to export view keys on sapling addresses yet */}
-        {/* <ConfirmDialogComponent
-          title={EXPORT_VIEW_KEYS_TITLE}
-          renderTrigger={toggleVisibility => (
-            <SettingsWrapper>
-              <SettingsTitle value={EXPORT_VIEW_KEYS_TITLE} />
-              <SettingsContent value={EXPORT_VIEW_KEYS_CONTENT} />
-              <SettingsActionWrapper>
-                <Btn label={EXPORT_VIEW_KEYS_TITLE} onClick={toggleVisibility} />
-                <LearnMore onClick={() => openExternal(EXPORT_VIEW_KEYS_LEARN_MORE)}>
-                  Learn More
-                </LearnMore>
-              </SettingsActionWrapper>
-            </SettingsWrapper>
-          )}
-          onConfirm={this.exportViewKeys}
-          showButtons={!successExportViewKeys}
-          width={550}
-        >
-          {() => (
-            <ModalContent>
-              {successExportViewKeys ? (
-                viewKeys.map(({ zAddress, key }, index) => (
-                  <>
-                    <ViewKeyHeader>
-                      <ViewKeyLabel value={`View Key for Address #${index + 1}`} />
-                      <ViewKeyAddress value={`Address: ${zAddress}`} />
-                    </ViewKeyHeader>
-                    <ViewKeyContentWrapper>
-                      <ViewKeyInputComponent
-                        value={key}
-                        onFocus={event => event.currentTarget.select()}
-                      />
-                      <ClipboardButton text={key} />
-                    </ViewKeyContentWrapper>
-                  </>
-                ))
-              ) : (
-                <TextComponent value={EXPORT_VIEW_KEYS_CONTENT} />
+      <OuterWrapper>
+        <Wrapper>
+          {embeddedDaemon && (
+            <ConfirmDialogComponent
+              title='Confirm'
+              onConfirm={() => updateAnonNetwork(anonNetwork === MAINNET ? TESTNET : MAINNET)}
+              showButtons={embeddedDaemon}
+              renderTrigger={toggleVisibility => (
+                <ThemeSelectWrapper>
+                  <SettingsTitle value='Anon Network' />
+                  <SelectComponent
+                    onChange={value => (anonNetwork !== value ? toggleVisibility() : undefined)}
+                    value={anonNetwork}
+                    options={networkOptions}
+                  />
+                </ThemeSelectWrapper>
               )}
-            </ModalContent>
+            >
+              {() => (
+                <ModalContent>
+                  <TextComponent
+                    value={
+                      embeddedDaemon ? CONFIRM_RELAUNCH_CONTENT : RUNNING_NON_EMBEDDED_DAEMON_WARNING
+                    }
+                  />
+                </ModalContent>
+              )}
+            </ConfirmDialogComponent>
           )}
-        </ConfirmDialogComponent> */}
-
-        <SettingsWrapper>
-          <ConfirmDialogComponent
-            confirmButtonText='Export now'
-            title={EXPORT_PRIV_KEYS_TITLE}
+          <ThemeSelectWrapper>
+            <SettingsTitle value='Theme' />
+            <SelectComponent
+              onChange={newMode => electronStore.set(THEME_MODE, newMode)}
+              value={electronStore.get(THEME_MODE)}
+              options={themeOptions}
+            />
+          </ThemeSelectWrapper>
+          {/* Hidden due to Sapling inability to export view keys on sapling addresses yet */}
+          {/* <ConfirmDialogComponent
+            title={EXPORT_VIEW_KEYS_TITLE}
             renderTrigger={toggleVisibility => (
-              <SettingsInnerWrapper>
-                <SettingsTitle value={EXPORT_PRIV_KEYS_TITLE} />
-                <SettingsContent value={EXPORT_PRIV_KEYS_CONTENT} />
-                <Btn label={EXPORT_PRIV_KEYS_TITLE} onClick={toggleVisibility} />
-              </SettingsInnerWrapper>
+              <SettingsWrapper>
+                <SettingsTitle value={EXPORT_VIEW_KEYS_TITLE} />
+                <SettingsContent value={EXPORT_VIEW_KEYS_CONTENT} />
+                <SettingsActionWrapper>
+                  <Btn label={EXPORT_VIEW_KEYS_TITLE} onClick={toggleVisibility} />
+                  <LearnMore onClick={() => openExternal(EXPORT_VIEW_KEYS_LEARN_MORE)}>
+                    Learn More
+                  </LearnMore>
+                </SettingsActionWrapper>
+              </SettingsWrapper>
             )}
-            onConfirm={() => {
-              this.exportPrivateKeys();
-            }}
-            showButtons={!successExportPrivateKeys}
+            onConfirm={this.exportViewKeys}
+            showButtons={!successExportViewKeys}
             width={550}
-            onClose={this.resetState}
           >
             {() => (
               <ModalContent>
-                {false ? (
-                  privateKeys.map(({ zAddress, key }, index) => (
-                    <div key={zAddress}>
+                {successExportViewKeys ? (
+                  viewKeys.map(({ zAddress, key }, index) => (
+                    <>
                       <ViewKeyHeader>
-                        <ViewKeyLabel value={`Private Key for Address #${index + 1}`} />
+                        <ViewKeyLabel value={`View Key for Address #${index + 1}`} />
                         <ViewKeyAddress value={`Address: ${zAddress}`} />
                       </ViewKeyHeader>
                       <ViewKeyContentWrapper>
                         <ViewKeyInputComponent
                           value={key}
-                          width='100%'
                           onFocus={event => event.currentTarget.select()}
                         />
                         <ClipboardButton text={key} />
                       </ViewKeyContentWrapper>
-                    </div>
+                    </>
                   ))
                 ) : (
-                  <TextComponent value={EXPORT_PRIV_KEYS_CONTENT} />
+                  <TextComponent value={EXPORT_VIEW_KEYS_CONTENT} />
                 )}
               </ModalContent>
             )}
-          </ConfirmDialogComponent>
-          <ConfirmDialogComponent
-            title={IMPORT_PRIV_KEYS_TITLE}
-            renderTrigger={toggleVisibility => (
-              <SettingsInnerWrapper>
-                <SettingsTitle value={IMPORT_PRIV_KEYS_TITLE} />
-                <SettingsContent value={IMPORT_PRIV_KEYS_CONTENT} />
-                <Btn label={IMPORT_PRIV_KEYS_TITLE} onClick={toggleVisibility} />
-              </SettingsInnerWrapper>
-            )}
-            onConfirm={this.importPrivateKeys}
-            showButtons={!successImportPrivateKeys}
-            width={450}
-            isLoading={isLoading}
-          >
-            {() => (
-              <ModalContent>
-                <InputLabelComponent marginTop='0' value={IMPORT_PRIV_KEYS_CONTENT_MODAL} />
-                <InputComponent
-                  value={importedPrivateKeys}
-                  onChange={value => this.setState({ importedPrivateKeys: value })}
-                  inputType='textarea'
-                  rows={10}
-                />
-                <StatusWrapper>
-                  {successImportPrivateKeys && (
-                    <StatusTextSuccess value={IMPORT_PRIV_KEYS_SUCCESS_CONTENT} />
-                  )}
-                  {error && <StatusTextError value={error} align='center' />}
-                </StatusWrapper>
-              </ModalContent>
-            )}
-          </ConfirmDialogComponent>
-        </SettingsWrapper>
+          </ConfirmDialogComponent> */}
 
-        <SettingsWrapper>
-          <SettingsTitle value={BACKUP_WALLET_TITLE} />
-          <SettingsContent value={BACKUP_WALLET_CONTENT} />
-          <Btn label={BACKUP_WALLET_TITLE} onClick={this.backupWalletDat} />
-        </SettingsWrapper>
-      </Wrapper>
+          <SettingsWrapper>
+            <ConfirmDialogComponent
+              confirmButtonText='Export now'
+              title={EXPORT_PRIV_KEYS_TITLE}
+              renderTrigger={toggleVisibility => (
+                <SettingsInnerWrapper>
+                  <SettingsTitle value={EXPORT_PRIV_KEYS_TITLE} />
+                  <SettingsContent value={EXPORT_PRIV_KEYS_CONTENT} />
+                  <Btn label={EXPORT_PRIV_KEYS_TITLE} onClick={toggleVisibility} />
+                </SettingsInnerWrapper>
+              )}
+              onConfirm={() => {
+                this.exportPrivateKeys();
+              }}
+              showButtons={!successExportPrivateKeys}
+              width={550}
+              onClose={this.resetState}
+            >
+              {() => (
+                <ModalContent>
+                  {false ? (
+                    privateKeys.map(({ zAddress, key }, index) => (
+                      <div key={zAddress}>
+                        <ViewKeyHeader>
+                          <ViewKeyLabel value={`Private Key for Address #${index + 1}`} />
+                          <ViewKeyAddress value={`Address: ${zAddress}`} />
+                        </ViewKeyHeader>
+                        <ViewKeyContentWrapper>
+                          <ViewKeyInputComponent
+                            value={key}
+                            width='100%'
+                            onFocus={event => event.currentTarget.select()}
+                          />
+                          <ClipboardButton text={key} />
+                        </ViewKeyContentWrapper>
+                      </div>
+                    ))
+                  ) : (
+                    <TextComponent value={EXPORT_PRIV_KEYS_CONTENT} />
+                  )}
+                </ModalContent>
+              )}
+            </ConfirmDialogComponent>
+            <ConfirmDialogComponent
+              title={IMPORT_PRIV_KEYS_TITLE}
+              renderTrigger={toggleVisibility => (
+                <SettingsInnerWrapper>
+                  <SettingsTitle value={IMPORT_PRIV_KEYS_TITLE} />
+                  <SettingsContent value={IMPORT_PRIV_KEYS_CONTENT} />
+                  <Btn label={IMPORT_PRIV_KEYS_TITLE} onClick={toggleVisibility} />
+                </SettingsInnerWrapper>
+              )}
+              onConfirm={this.importPrivateKeys}
+              showButtons={!successImportPrivateKeys}
+              width={450}
+              isLoading={isLoading}
+            >
+              {() => (
+                <ModalContent>
+                  <InputLabelComponent marginTop='0' value={IMPORT_PRIV_KEYS_CONTENT_MODAL} />
+                  <InputComponent
+                    value={importedPrivateKeys}
+                    onChange={value => this.setState({ importedPrivateKeys: value })}
+                    inputType='textarea'
+                    rows={10}
+                  />
+                  <StatusWrapper>
+                    {successImportPrivateKeys && (
+                      <StatusTextSuccess value={IMPORT_PRIV_KEYS_SUCCESS_CONTENT} />
+                    )}
+                    {error && <StatusTextError value={error} align='center' />}
+                  </StatusWrapper>
+                </ModalContent>
+              )}
+            </ConfirmDialogComponent>
+          </SettingsWrapper>
+
+          <SettingsWrapper>
+            <SettingsTitle value={BACKUP_WALLET_TITLE} />
+            <SettingsContent value={BACKUP_WALLET_CONTENT} />
+            <Btn label={BACKUP_WALLET_TITLE} onClick={this.backupWalletDat} />
+          </SettingsWrapper>
+        </Wrapper>
+      </OuterWrapper>
     );
   };
 }

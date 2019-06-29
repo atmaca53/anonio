@@ -22,6 +22,14 @@ import type { MapStateToProps, MapDispatchToProps } from '../containers/receive'
 
 const TRANSPARENT_ADDRESS_SUBLABEL = 'By using transaparent addresses you are forgoing any privacy properties to your transactions.';
 
+const OuterWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+`;
+
 const Row = styled(RowComponent)`
   margin-bottom: 10px;
 `;
@@ -147,69 +155,71 @@ class Component extends PureComponent<Props, State> {
     const plusIcon = theme.mode === DARK ? PlusIconDark : PlusIconLight;
 
     return (
-      <div id='receive-wrapper'>
-        <ShieldedLabel value='Shielded Address' id='shielded-address-label' />
-        {shieldedAddresses.map(({ address, balance }) => (
-          <WalletAddress key={address} address={address} balance={balance} />
-        ))}
-        <Row justifyContent='space-between'>
-          <ActionButton
-            id='receive-get-new-shielded'
-            onClick={() => this.generateNewAddress('shielded')}
-          >
-            <PlusIcon src={plusIcon} alt='New Shielded Address' />
-            <ActionText value='New Shielded Address' />
-          </ActionButton>
-          <ActionButton
-            id='receive-show-other'
-            onClick={this.toggleAdditionalOptions}
-            isActive={showAdditionalOptions}
-          >
-            <ActionIcon isActive={showAdditionalOptions} src={seeMoreIcon} alt='More Options' />
-            <ActionText value={buttonText} />
-          </ActionButton>
-        </Row>
-        <RevealsMain>
-          <Transition
-            native
-            items={showAdditionalOptions}
-            enter={[{ opacity: 1 }]}
-            leave={{ height: 0, opacity: 0 }}
-            from={{
-              position: 'absolute',
-              overflow: 'hidden',
-              height: 0,
-              opacity: 0,
-            }}
-          >
-            {(show: boolean) => show
-              && ((props: Object) => (
-                <animated.div
-                  id='receive-transparent-addresses-wrapper'
-                  style={{
-                    ...props,
-                    width: '100%',
-                    height: 'auto',
-                  }}
-                >
-                  <Label value='Transparent Address (not private)' />
-                  <SubLabel value={TRANSPARENT_ADDRESS_SUBLABEL} />
-                  {transparentAddresses.map(({ address, balance }) => (
-                    <WalletAddress key={address} address={address} balance={balance} />
-                  ))}
-                  <ActionButton
-                    id='receive-get-net-transparent'
-                    onClick={() => this.generateNewAddress('transparent')}
+      <OuterWrapper>
+        <div id='receive-wrapper' style={{width: 100 + '%'}}>
+          <ShieldedLabel value='Shielded Address' id='shielded-address-label' />
+          {shieldedAddresses.map(({ address, balance }) => (
+            <WalletAddress key={address} address={address} balance={balance} />
+          ))}
+          <Row justifyContent='space-between'>
+            <ActionButton
+              id='receive-get-new-shielded'
+              onClick={() => this.generateNewAddress('shielded')}
+            >
+              <PlusIcon src={plusIcon} alt='New Shielded Address' />
+              <ActionText value='New Shielded Address' />
+            </ActionButton>
+            <ActionButton
+              id='receive-show-other'
+              onClick={this.toggleAdditionalOptions}
+              isActive={showAdditionalOptions}
+            >
+              <ActionIcon isActive={showAdditionalOptions} src={seeMoreIcon} alt='More Options' />
+              <ActionText value={buttonText} />
+            </ActionButton>
+          </Row>
+          <RevealsMain>
+            <Transition
+              native
+              items={showAdditionalOptions}
+              enter={[{ opacity: 1 }]}
+              leave={{ height: 0, opacity: 0 }}
+              from={{
+                position: 'absolute',
+                overflow: 'hidden',
+                height: 0,
+                opacity: 0,
+              }}
+            >
+              {(show: boolean) => show
+                && ((props: Object) => (
+                  <animated.div
+                    id='receive-transparent-addresses-wrapper'
+                    style={{
+                      ...props,
+                      width: '100%',
+                      height: 'auto',
+                    }}
                   >
-                    <PlusIcon src={plusIcon} alt='New Transparent Address' />
-                    <ActionText value='New Transparent Address' />
-                  </ActionButton>
-                </animated.div>
-              ))
-            }
-          </Transition>
-        </RevealsMain>
-      </div>
+                    <Label value='Transparent Address (not private)' />
+                    <SubLabel value={TRANSPARENT_ADDRESS_SUBLABEL} />
+                    {transparentAddresses.map(({ address, balance }) => (
+                      <WalletAddress key={address} address={address} balance={balance} />
+                    ))}
+                    <ActionButton
+                      id='receive-get-net-transparent'
+                      onClick={() => this.generateNewAddress('transparent')}
+                    >
+                      <PlusIcon src={plusIcon} alt='New Transparent Address' />
+                      <ActionText value='New Transparent Address' />
+                    </ActionButton>
+                  </animated.div>
+                ))
+              }
+            </Transition>
+          </RevealsMain>
+        </div>
+      </OuterWrapper>
     );
   }
 }

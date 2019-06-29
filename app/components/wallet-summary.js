@@ -14,6 +14,7 @@ import ShieldLightImage from '../assets/images/shield_light.png';
 
 const OutsideWrapper = styled.div`
   margin-top: ${props => props.theme.layoutContentPaddingTop};
+  width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
   border-radius: ${props => props.theme.boxBorderRadius};
   padding: 30px 30px;
   position: relative;
+  flex-wrap: wrap;
 `;
 
 const OutsideLabel = styled(TextComponent)`
@@ -40,7 +42,7 @@ const TotalContainer = styled.div`
 
 const DetailContainer = styled.div`
   min-width: 130px;
-  padding-right: 20px;
+  padding-left: 20px;
 `;
 
 const USDValue = styled(TextComponent)`
