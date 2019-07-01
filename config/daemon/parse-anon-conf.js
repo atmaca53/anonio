@@ -49,6 +49,7 @@ export const parseAnonConf = (customDir: ?string): Promise<AnonConfFile> => new 
         const line = cur.trim();
 
         if (line.startsWith('#')) return acc;
+        if (cur.length < 3) return acc;//ignore short lines as they cause trim errors on windows
 
         const [key, value] = cur.split('=');
         return { ...acc, [key.trim().toLowerCase()]: value.trim() };
