@@ -98,9 +98,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
         transactionId: transaction.txid,
         type: transaction.category,
         date: new Date(transaction.time * 1000).toISOString(),
-        fromaddress: transaction.fromaddress
-          ? formatFromAddress(transaction.fromaddress, transaction.memo)
-          : '(Shielded)',
+        fromaddress: transaction.fromaddress || '(Shielded)',
         toaddress: transaction.toaddress || '(Shielded)',
         amount: new BigNumber(transaction.amount).absoluteValue().toNumber(),
         fees: transaction.fee

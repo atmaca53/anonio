@@ -288,10 +288,7 @@ const Component = ({
       <InfoRow>
         <ColumnComponent width='100%'>
           <Label value='Address' />
-          {(fromaddress.length > 35 || fromaddress != '(Shielded)') && (
-            <TransactionDetailsAddress value={`from : ${fromaddress}`} />
-          )}
-          <TransactionDetailsAddress value={`to : ${toaddress}`} />
+          <TransactionDetailsAddress value={toaddress} />
         </ColumnComponent>
       </InfoRow>
       <Divider />
