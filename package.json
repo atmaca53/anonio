@@ -1,7 +1,7 @@
 {
   "name": "anonio",
   "productName": "Anonio",
-  "version": "0.7.2-3",
+  "version": "0.7.2-4",
   "description": "Anonio | Cross-platform sapling-enabled full-node Anon wallet",
   "main": "config/main.js",
   "homepage": "https://anoniowallet.com",
