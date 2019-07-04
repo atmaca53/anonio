@@ -11,10 +11,14 @@ import ReceivedIconLight from '../assets/images/transaction_received_icon_light.
 import SentIconLight from '../assets/images/transaction_sent_icon_light.svg';
 import SentIconDark from '../assets/images/transaction_sent_icon_dark.svg';
 import PendingIconDark from '../assets/images/transaction_pending_icon_dark.svg';
-import MemoReadRcvIcon from '../assets/images/transaction_memo_read_rcv_light.svg';
-import MemoReadSndIcon from '../assets/images/transaction_memo_read_snd_light.svg';
-import MemoUnreadRcvIcon from '../assets/images/transaction_memo_unread_rcv_light.svg';
-import MemoUnreadSndIcon from '../assets/images/transaction_memo_unread_snd_light.svg';
+import MemoReadRcvIconLight from '../assets/images/transaction_memo_read_rcv_light.svg';
+import MemoReadRcvIconDark from '../assets/images/transaction_memo_read_rcv_dark.svg';
+import MemoReadSndIconLight from '../assets/images/transaction_memo_read_snd_light.svg';
+import MemoReadSndIconDark from '../assets/images/transaction_memo_read_snd_dark.svg';
+import MemoUnreadRcvIconLight from '../assets/images/transaction_memo_unread_rcv_light.svg';
+import MemoUnreadRcvIconDark from '../assets/images/transaction_memo_unread_rcv_dark.svg';
+import MemoUnreadSndIconLight from '../assets/images/transaction_memo_unread_snd_light.svg';
+import MemoUnreadSndIconDark from '../assets/images/transaction_memo_unread_snd_dark.svg';
 import UnconfirmedLight from '../assets/images/unconfirmed_light.svg';
 import UnconfirmedDark from '../assets/images/unconfirmed_dark.svg';
 
@@ -177,12 +181,20 @@ const Component = ({
   const getIconSrc = (state) => {
     if (memo) return (state==='send')
       ? isRead //send
-          ? MemoReadSndIcon
-          : MemoUnreadSndIcon
+        ? (theme.mode === DARK)
+          ? MemoReadSndIconDark
+          : MemoReadSndIconLight
+        : (theme.mode === DARK)
+          ? MemoUnreadSndIconDark
+          : MemoUnreadSndIconLight
       : isRead //receive
-          ? MemoReadRcvIcon
-          : MemoUnreadRcvIcon
-    
+        ? (theme.mode === DARK)
+          ? MemoReadRcvIconDark
+          : MemoReadRcvIconLight
+        : (theme.mode === DARK)
+          ? MemoUnreadRcvIconDark
+          : MemoUnreadRcvIconLight
+
     return (
       {
         receive:  receivedIcon,

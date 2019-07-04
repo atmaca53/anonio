@@ -10,7 +10,7 @@
    viewBox="0 0 18.813201 18.859634"
    version="1.1"
    id="svg20"
-   sodipodi:docname="transaction.svg"
+   sodipodi:docname="transaction_memo_unread_snd_light.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
    width="18.8132"
    height="18.859634"
@@ -43,10 +43,10 @@
      id="namedview22"
      showgrid="false"
      inkscape:zoom="40.087946"
-     inkscape:cx="8.1605912"
+     inkscape:cx="7.6678421"
      inkscape:cy="9.4649721"
-     inkscape:window-x="1693"
-     inkscape:window-y="37"
+     inkscape:window-x="173"
+     inkscape:window-y="30"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg20" />
   <defs
@@ -58,7 +58,7 @@
   </defs>
   <g
      id="g4654"
-     style="display:none">
+     style="display:inline">
     <g
        style="opacity:1;fill:#ff6c6c;fill-opacity:1"
        id="g828"
@@ -116,39 +116,10 @@
        id="path903-7"
        style="opacity:1;fill:none;fill-opacity:1;stroke:#66be54;stroke-width:1.64757013;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
-  <g
-     id="g860"
-     style="display:inline">
-    <path
-       style="fill:#6aeac0;fill-opacity:1"
-       inkscape:connector-curvature="0"
-       class="a"
-       d="m 10.30392,11.717298 v -0.817 l 0.011,-3.889 c 0,-0.69 0,-1.381 0,-2.071 a 0.836,0.836 0 0 0 -1.668,-0.1 1.591,1.591 0 0 0 -0.007,0.187 q 0,4.277 0,8.55 a 1.1,1.1 0 0 0 0.093,0.511 0.811,0.811 0 0 0 1.291,0.223 q 1.226,-1.198 2.437,-2.414 a 0.8,0.8 0 0 0 -0.007,-1.135 0.8,0.8 0 0 0 -1.127,-0.015 c -0.31,0.295 -0.612,0.6 -0.918,0.907 a 0.4,0.4 0 0 0 -0.056,0.1 0.407,0.407 0 0 0 -0.049,-0.037 z"
-       id="path824-1-7" />
-    <path
-       style="fill:#6aeac0;fill-opacity:1"
-       inkscape:connector-curvature="0"
-       class="a"
-       d="m 8.57892,11.717298 v -0.817 l -0.011,-3.889 c 0,-0.69 0,-1.381 0,-2.071 a 0.836,0.836 0 0 1 1.664,-0.101 1.591,1.591 0 0 1 0.011,0.183 q 0,4.277 0,8.55 a 1.1,1.1 0 0 1 -0.093,0.512 0.811,0.811 0 0 1 -1.292,0.227 q -1.226,-1.2 -2.437,-2.415 a 0.808,0.808 0 0 1 1.135,-1.149 c 0.31,0.295 0.612,0.6 0.918,0.907 a 0.4,0.4 0 0 1 0.056,0.1 0.407,0.407 0 0 1 0.049,-0.037 z"
-       id="path826-2-5" />
-    <ellipse
-       ry="8.5827379"
-       rx="8.5828152"
-       cy="9.4531116"
-       cx="9.4066"
-       id="path903-7-3"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#6aeac0;stroke-width:1.64757013;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-  </g>
   <circle
-     style="display:none;opacity:1;fill:#cccccc;fill-opacity:1;stroke:#280b0b;stroke-width:0.89613354"
+     style="display:inline;opacity:1;fill:#ff6c6c;fill-opacity:1;stroke:#280b0b;stroke-width:0.89613354"
      id="path834"
      cx="3.4435282"
      cy="3.4435279"
-     r="2.9954612" />
-  <circle
-     style="display:inline;opacity:1;fill:#ff6c6c;fill-opacity:1;stroke:#280b0b;stroke-width:0.89613354"
-     id="path834-3"
-     cx="3.4435279"
-     cy="3.4431064"
      r="2.9954612" />
 </svg>
