@@ -79,7 +79,7 @@ const zListReceivedByAddressAll = (async () => {
       }
     }
   }
-  //group notes to give single total
+  //group notes to give single total for address
   txNoteMerge = await Object.values([...zReceivedByTransactions]
     .reduce((tx, { confirmations, txid, category, time, toaddress, fromaddress, memo, amount }) => {
     tx[txid] = { confirmations, txid, category, time, toaddress, fromaddress, memo, amount : (tx[txid] ? tx[txid].amount : 0) + amount  };
@@ -151,15 +151,3 @@ export const saveShieldedTransaction = async ({ txid, category, time, toaddress,
       }),
     );
   };
-
-// export const setShieldedAddressLabel = async ({ address, label }: ShieldedAddressLabel): void =>
-//   {
-//     electronStore.set(
-//       'SHIELDED_ADDRESS_LABEL',
-//       await
-//       [
-//         ...listShieldedAddressLabels(),
-//         ...[{ address, label }]
-//       ]
-//     );
-//   };

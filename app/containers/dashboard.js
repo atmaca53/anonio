@@ -45,7 +45,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     const [walletErr, walletSummary] = await eres(rpc.z_gettotalbalance());
     const [zAddressesErr, zAddresses = []] = await eres(rpc.z_listaddresses());
     const [tAddressesErr, tAddresses = []] = await eres(rpc.getaddressesbyaccount(''));
+    // needs to be greater than 10 to compensate for the cpu mined blocks on testnet
     const [transactionsErr, transactions] = await eres(rpc.listtransactions('', 1000, 0));
+    //this is the one to use when not cpu mining
+    // const [transactionsErr, transactions] = await eres(rpc.listtransactions(''));
     const [unconfirmedBalanceErr, unconfirmedBalance] = await eres(rpc.getunconfirmedbalance());
 
     if (walletErr || zAddressesErr || tAddressesErr || transactionsErr || unconfirmedBalanceErr) {
@@ -56,7 +59,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       );
     }
 
-    const arrTransparentTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
+    const tTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
       confirmations: e.confirmations,
       txid: e.txid,
       category: e.category,
@@ -70,14 +73,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       if (m === "f6") return ''
       m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
       return String.fromCharCode.apply(String, m)
-    }
-
-    const formatFromAddress = (a, m) => {
-      m = m.replace(/[0]+$/,'')
-      if (m === "f6") return ''
-      m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
-      if (String.fromCharCode.apply(String, m).match(/^(zt)/)){ return String.fromCharCode.apply(String, m) }
-      return a
     }
 
     const formattedTransactions: Array<Object> = flow([
@@ -109,7 +104,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-    ])([...arrTransparentTxs, ...await listShieldedTransactions()]);
+    ])(([...tTxs, ...await listShieldedTransactions()]
+          .sort((a, b) => (a.time < b.time) ? 1 : -1))
+          .slice(0, 10));
 
     if (!zAddresses.length) {
       const [, newZAddress] = await eres(rpc.z_getnewaddress());

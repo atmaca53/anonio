@@ -53,14 +53,18 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     dispatch(loadTransactions());
 
     const [transactionsErr, transactions = []] = await eres(
-      rpc.listtransactions('', 100, offset),
+      // some adjustment here to compensate for cpu mining on testnet
+      rpc.listtransactions('', 10000, 0),
+      // just grab the most recent 1000 in the real world
+      // additional statements tab (todo) will report more historic txs
+      // rpc.listtransactions('', 1000, 0),
     );
 
     if (transactionsErr) {
       return dispatch(loadTransactionsError({ error: transactionsErr.message }));
     }
 
-    const arrTransparentTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
+    const tTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
       confirmations: e.confirmations,
       txid: e.txid,
       category: e.category,
@@ -86,7 +90,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
 
     const formattedTransactions = sortByDescend('date')(
       [
-        ...arrTransparentTxs,
+        ...tTxs,
         ...await listShieldedTransactions(),
       ].map(transaction => ({
         confirmations: transaction.confirmations !== undefined
