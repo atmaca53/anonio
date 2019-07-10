@@ -18,7 +18,9 @@ import TransactionsIconActive from '../assets/images/transactions_icon_active.sv
 import SettingsIconDark from '../assets/images/settings_icon_dark.svg';
 import SettingsIconLight from '../assets/images/settings_icon_light.svg';
 import SettingsIconActive from '../assets/images/settings_icon_active.svg';
-import AboutIcon from '../assets/images/info.png';
+import AboutIconLight from '../assets/images/info_icon_light.svg';
+import AboutIconDark from '../assets/images/info_icon_dark.svg';
+import AboutIconActive from '../assets/images/info_icon_active.svg';
 
 import {
   DASHBOARD_ROUTE,
@@ -103,10 +105,10 @@ export const MENU_OPTIONS = [
     route: ABOUT_ROUTE,
     icon: (isActive: boolean, themeMode: string) => {
       if (themeMode === LIGHT) {
-        return AboutIcon;
+        return AboutIconLight;
       }
 
-      return (isActive) ? AboutIcon : AboutIcon;
+      return (isActive) ? AboutIconActive : AboutIconDark;
     },
   },
 ];
