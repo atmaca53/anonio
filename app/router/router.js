@@ -15,6 +15,7 @@ import { ReceiveContainer } from '../containers/receive';
 import { SettingsContainer } from '../containers/settings';
 import { NotFoundView } from '../views/not-found';
 import { ConsoleView } from '../views/console';
+import { AboutView } from '../views/about';
 import { AppContainer as LayoutComponent } from '../containers/app';
 import { HeaderComponent } from '../components/header';
 
@@ -25,6 +26,7 @@ import {
   SETTINGS_ROUTE,
   CONSOLE_ROUTE,
   TRANSACTIONS_ROUTE,
+  ABOUT_ROUTE,
 } from '../constants/routes';
 
 const FullWrapper = styled.div`
@@ -67,6 +69,7 @@ export const RouterComponent = ({
             <Route path={RECEIVE_ROUTE} component={ReceiveContainer} />
             <Route path={SETTINGS_ROUTE} component={SettingsContainer} />
             <Route path={CONSOLE_ROUTE} component={ConsoleView} />
+            <Route path={ABOUT_ROUTE} component={AboutView} />
             <Route path={TRANSACTIONS_ROUTE} component={TransactionsContainer} />
             <Route component={NotFoundView} />
           </Switch>

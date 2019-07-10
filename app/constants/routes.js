@@ -2,6 +2,7 @@
 
 export const DASHBOARD_ROUTE = '/';
 export const CONSOLE_ROUTE = '/console';
+export const ABOUT_ROUTE = '/about';
 export const SEND_ROUTE = '/send';
 export const RECEIVE_ROUTE = '/receive';
 export const TRANSACTIONS_ROUTE = '/transactions';
