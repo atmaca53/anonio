@@ -721,6 +721,7 @@ class Component extends PureComponent<Props, State> {
       || new BigNumber(amount).gt(balance)
       || !this.isMemoContentValid()
       || nodeSyncType !== NODE_SYNC_TYPES.READY
+      || to === from
     );
   };
 
