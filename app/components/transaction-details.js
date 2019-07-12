@@ -32,6 +32,7 @@ const STORE_KEY = getStoreKey();
 
 const Wrapper = styled.div`
   width: 100%;
+  max-width: 700px;
   background-color: ${props => props.theme.colors.transactionDetailsBg};
   display: flex;
   flex-direction: column;
@@ -118,19 +119,16 @@ const Ellipsis = styled(TextComponent)`
 `;
 
 const TransactionDetailsAddress = styled(TextComponent)`
-  color: ${props => props.theme.colors.transactionItemAddress};
-  white-space: nowrap;
   user-select: text;
-
-  ${String(Wrapper)}:hover & {
-    color: ${props => props.theme.colors.transactionItemAddressHover};
-  }
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
 `;
 
 const TransactionDetailsMemo = styled(TextComponent)`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
   width: 100%;
   user-select: text;
 `;
@@ -287,7 +285,7 @@ const Component = ({
       <Divider />
       <InfoRow>
         <ColumnComponent width='100%'>
-          <Label value='Address' />
+          <Label value='ADDRESS' />
           <TransactionDetailsAddress value={toaddress} />
         </ColumnComponent>
       </InfoRow>
@@ -295,7 +293,7 @@ const Component = ({
       {memo.length > 0 && (
         <InfoRow>
           <ColumnComponent width='100%'>
-            <Label value='Memo' />
+            <Label value='MEMO' />
             <TransactionDetailsMemo value={memo} />
           </ColumnComponent>
         </InfoRow>
