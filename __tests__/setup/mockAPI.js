@@ -118,7 +118,7 @@ const handler = (server) => {
 };
 
 createTestServer({
-  httpPort: '9999',
+  httpPort: '3130',
   bodyParser: true,
 }).then(handler);
 

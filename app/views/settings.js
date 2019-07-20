@@ -375,7 +375,7 @@ export class SettingsView extends PureComponent<Props, State> {
     ];
 
     const networkOptions = [
-      // { label: 'Mainnet', value: MAINNET },
+      { label: 'Mainnet', value: MAINNET },
       { label: 'Testnet', value: TESTNET },
     ];
 
