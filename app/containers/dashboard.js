@@ -104,8 +104,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-    ])(([...tTxs, ...await listShieldedTransactions()]
-    // ])(([...tTxs, ...await zGetZTxsFromStore()]
+    // ])(([...tTxs, ...await listShieldedTransactions()]
+    ])(([...tTxs, ...await zGetZTxsFromStore()]
           .sort((a, b) => (a.time < b.time) ? 1 : -1))
           .slice(0, 10));
 

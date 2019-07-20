@@ -12,7 +12,7 @@ import {
   resetTransactionsList,
 } from '../redux/modules/transactions';
 import rpc from '../../services/api';
-import { listShieldedTransactions } from '../../services/shielded-transactions';
+import { zGetZTxsFromStore, listShieldedTransactions } from '../../services/shielded-transactions';
 import store from '../../config/electron-store';
 import { MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 
@@ -91,7 +91,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     const formattedTransactions = sortByDescend('date')(
       [
         ...tTxs,
-        ...await listShieldedTransactions(),
+        // ...await listShieldedTransactions(),
+        ...await zGetZTxsFromStore(),
       ].map(transaction => ({
         confirmations: transaction.confirmations !== undefined
           ? transaction.confirmations

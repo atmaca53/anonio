@@ -64,7 +64,7 @@ const zListReceivedByAddressAll = (async () => {
       zSendAddr = zSendTransactions.find(z => z.txid === txZAddr.txid) || ''
 
       //basic filter to add only non-change addresses to list
-      if (!zSendTransactions.some(z => (z.fromaddress === zAddr && z.txid === txZAddr.txid)))
+      if (!zSendTransactions.some(z => (z.fromaddress === zAddr && z.txid === txZAddr.txid && z.amount !== txZAddr.amount)))
       {
         zReceivedByTransactions.push({
           confirmations: txTime.confirmations,
@@ -86,6 +86,10 @@ const zListReceivedByAddressAll = (async () => {
     return tx;
   }, {}));
 })
+
+export const zGetZTxsFromStore = () => {
+  return electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []
+}
 
 // eslint-disable-next-line
 export const listShieldedTransactions = async (
