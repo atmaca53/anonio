@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  width: ${props => `calc(100% - ${props.theme.sidebarWidth})`};
+  width: 100%;
   height: ${props => props.theme.headerHeight};
   display: flex;
   flex-direction: column;
