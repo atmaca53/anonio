@@ -13,7 +13,7 @@ import rpc from '../../services/api';
 import store from '../../config/electron-store';
 import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
-import { listShieldedTransactions } from '../../services/shielded-transactions';
+import { zGetZTxsFromStore, listShieldedTransactions } from '../../services/shielded-transactions';
 import { sortByDescend } from '../utils/sort-by-descend';
 
 import {
@@ -105,6 +105,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       })),
       sortByDescend('jsDay'),
     ])(([...tTxs, ...await listShieldedTransactions()]
+    // ])(([...tTxs, ...await zGetZTxsFromStore()]
           .sort((a, b) => (a.time < b.time) ? 1 : -1))
           .slice(0, 10));
 
