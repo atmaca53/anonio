@@ -9,6 +9,7 @@ import { TransactionItemComponent } from '../components/transaction-item';
 import { TextComponent } from '../components/text';
 import { EmptyTransactionsComponent } from '../components/empty-transactions';
 
+import { updateShieldedTransactions } from '../../services/shielded-transactions';
 import type { MapDispatchToProps, MapStateToProps } from '../containers/transactions';
 
 type Props = MapDispatchToProps & MapStateToProps;
@@ -44,16 +45,29 @@ const ListWrapper = styled.div`
   margin-top: 10px;
 `;
 
+const UPDATE_INTERVAL = 10000;
+
 export class TransactionsView extends PureComponent<Props> {
   componentDidMount() {
     const { getTransactions, resetTransactionsList } = this.props;
 
     resetTransactionsList();
+
     getTransactions({
       count: PAGE_SIZE,
       offset: 0,
       shieldedTransactionsCount: 0,
     });
+
+    this.interval = setInterval(() => getTransactions({
+      count: PAGE_SIZE,
+      offset: 0,
+      shieldedTransactionsCount: 0,
+    }), UPDATE_INTERVAL);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   isRowLoaded = ({ index }: { index: number }) => {

@@ -13,7 +13,7 @@ import rpc from '../../services/api';
 import store from '../../config/electron-store';
 import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
-import { zGetZTxsFromStore, listShieldedTransactions } from '../../services/shielded-transactions';
+import { zGetZTxsFromStore, listShieldedTransactions, updateShieldedTransactions } from '../../services/shielded-transactions';
 import { sortByDescend } from '../utils/sort-by-descend';
 
 import {
@@ -46,9 +46,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     const [zAddressesErr, zAddresses = []] = await eres(rpc.z_listaddresses());
     const [tAddressesErr, tAddresses = []] = await eres(rpc.getaddressesbyaccount(''));
     // needs to be greater than 10 to compensate for the cpu mined blocks on testnet
-    const [transactionsErr, transactions] = await eres(rpc.listtransactions('', 1000, 0));
+    // const [transactionsErr, transactions] = await eres(rpc.listtransactions('', 1000, 0));
     //this is the one to use when not cpu mining
-    // const [transactionsErr, transactions] = await eres(rpc.listtransactions(''));
+    const [transactionsErr, transactions] = await eres(rpc.listtransactions(''));
     const [unconfirmedBalanceErr, unconfirmedBalance] = await eres(rpc.getunconfirmedbalance());
 
     if (walletErr || zAddressesErr || tAddressesErr || transactionsErr || unconfirmedBalanceErr) {
@@ -58,6 +58,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         }),
       );
     }
+
+    updateShieldedTransactions();
 
     const tTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
       confirmations: e.confirmations,
@@ -104,8 +106,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-    // ])(([...tTxs, ...await listShieldedTransactions()]
-    ])(([...tTxs, ...await zGetZTxsFromStore()]
+        // ])(([...tTxs, ...await listShieldedTransactions()]
+        ])(([...tTxs, ...await zGetZTxsFromStore()]
           .sort((a, b) => (a.time < b.time) ? 1 : -1))
           .slice(0, 10));
 

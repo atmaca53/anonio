@@ -36,6 +36,7 @@ const zListReceivedByAddressAll = (async () => {
     );
   }
 
+  zReceivedByTransactions=[]
   for (let zAddr of zAddresses) {
     let txZAddr;
     let zSendAddr;
@@ -80,24 +81,54 @@ const zListReceivedByAddressAll = (async () => {
     }
   }
   //group notes to give single total for address
-  txNoteMerge = await Object.values([...zReceivedByTransactions]
+  return ( await Object.values([...zReceivedByTransactions]
     .reduce((tx, { confirmations, txid, category, time, toaddress, fromaddress, memo, amount }) => {
     tx[txid] = { confirmations, txid, category, time, toaddress, fromaddress, memo, amount : (tx[txid] ? tx[txid].amount : 0) + amount  };
     return tx;
-  }, {}));
+  }, {})));
 })
 
 export const zGetZTxsFromStore = () => {
   return electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []
 }
 
+export const updateShieldedTransactions = async () => {
+
+  const txSend = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []).filter(t => t.category === 'send')
+  const txRcv = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []).filter(t => t.category === 'receive')
+
+  // remove confirmations from stored values
+  const rmvConfFromRcvStore = txRcv.map(t=>({
+    amount: t.amount,
+    category: t.category,
+    fromaddress: t.fromaddress,
+    isRead: t.isRead,
+    memo: t.memo,
+    time: t.time,
+    toaddress: t.toaddress,
+    txid: t.txid
+  }))
+
+  // merge to include the isRead prop
+  const txReceivedByMerge = await (await zListReceivedByAddressAll()).map((receivedBy)=>
+      Object.assign({}, receivedBy, rmvConfFromRcvStore.find((txRcvStore)=>
+        txRcvStore.txid===receivedBy.txid && 
+        txRcvStore.amount===receivedBy.amount &&
+        txRcvStore.category===receivedBy.category)||{}))
+
+  const trans = [...txSend, ...txReceivedByMerge].sort((a, b) => (a.time > b.time) ? 1 : -1)
+
+  //update electron store
+  electronStore.set(STORE_KEY, trans)
+};
+
+
 // eslint-disable-next-line
 export const listShieldedTransactions = async (
   pagination: ?{
     offset: number,
     count: number,
-  },
-): Array<ShieldedTransaction> => {
+  }): Array<ShieldedTransaction> => {
 
   let trans = []
   txNoteMerge = []
@@ -107,24 +138,24 @@ export const listShieldedTransactions = async (
   const transRcv = (electronStore.has(STORE_KEY) ? electronStore.get(STORE_KEY) : []).filter(t => t.category === 'receive')
   await zListReceivedByAddressAll();
 
-//this merges to include the isRead prop and is used for display
-const txReceivedByMerge = txNoteMerge.map((receivedBy)=>
-    Object.assign({}, receivedBy, transRcv.find((txRcvStore)=>
-      txRcvStore.txid===receivedBy.txid && 
-      txRcvStore.amount===receivedBy.amount &&
-      txRcvStore.category===receivedBy.category)||{}))
+  //this merges to include the isRead prop and is used for display
+  const txReceivedByMerge = txNoteMerge.map((receivedBy)=>
+      Object.assign({}, receivedBy, transRcv.find((txRcvStore)=>
+        txRcvStore.txid===receivedBy.txid && 
+        txRcvStore.amount===receivedBy.amount &&
+        txRcvStore.category===receivedBy.category)||{}))
 
-//confirmations are excluded from store
-const forStore = txReceivedByMerge.map(t=>({
-  amount: t.amount,
-  category: t.category,
-  fromaddress: t.fromaddress,
-  isRead: t.isRead,
-  memo: t.memo,
-  time: t.time,
-  toaddress: t.toaddress,
-  txid: t.txid
-}))
+  //confirmations are excluded from store
+  const forStore = txReceivedByMerge.map(t=>({
+    amount: t.amount,
+    category: t.category,
+    fromaddress: t.fromaddress,
+    isRead: t.isRead,
+    memo: t.memo,
+    time: t.time,
+    toaddress: t.toaddress,
+    txid: t.txid
+  }))
 
   trans = [...transSend, ...txReceivedByMerge].sort((a, b) => (a.time > b.time) ? 1 : -1)
 
@@ -143,7 +174,7 @@ export const saveShieldedTransaction = async ({ txid, category, time, toaddress,
     electronStore.set
     (
       getStoreKey(),
-      (await listShieldedTransactions()).concat(
+      (await zGetZTxsFromStore()).concat(
       {
         txid,
         category,

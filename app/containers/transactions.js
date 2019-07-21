@@ -12,7 +12,7 @@ import {
   resetTransactionsList,
 } from '../redux/modules/transactions';
 import rpc from '../../services/api';
-import { zGetZTxsFromStore, listShieldedTransactions } from '../../services/shielded-transactions';
+import { zGetZTxsFromStore, updateShieldedTransactions } from '../../services/shielded-transactions';
 import store from '../../config/electron-store';
 import { MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 
@@ -54,10 +54,10 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
 
     const [transactionsErr, transactions = []] = await eres(
       // some adjustment here to compensate for cpu mining on testnet
-      rpc.listtransactions('', 10000, 0),
+      // rpc.listtransactions('', 10000, 0),
       // just grab the most recent 1000 in the real world
       // additional statements tab (todo) will report more historic txs
-      // rpc.listtransactions('', 1000, 0),
+      rpc.listtransactions('', 1000, 0),
     );
 
     if (transactionsErr) {
@@ -80,13 +80,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
       return String.fromCharCode.apply(String, m)
     }
 
-    const formatFromAddress = (a, m) => {
-      m = m.replace(/[0]+$/,'')
-      if (m === "f6") return ''
-      m = m.replace(/(.{2})/g,'$1,').split(',').filter(Boolean).map(function (x) {return parseInt(x, 16)})
-      if (String.fromCharCode.apply(String, m).match(/^(zt)/)){ return String.fromCharCode.apply(String, m) }
-      return a
-    }
+    updateShieldedTransactions();
 
     const formattedTransactions = sortByDescend('date')(
       [
