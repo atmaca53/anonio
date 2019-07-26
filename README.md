@@ -1,6 +1,3 @@
-# This wallet is under development and should NOT be used at this time
-Skellers (16th May, 2019)
-
 # Anonio | ANON Wallet
 
 Anonio is a Sapling-enabled shielded-address-first Anon wallet, featuring cross-platform applications (macOS, Windows and Linux), built-in full node with support for `mainnet` and `testnet`, as well as `dark` and `light` themes.
