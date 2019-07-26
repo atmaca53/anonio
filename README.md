@@ -5,11 +5,9 @@ Anonio is a Sapling-enabled shielded-address-first Anon wallet, featuring cross-
 ![Build Status](https://app.bitrise.io/app/a5bc7a8391d5501b/status.svg?token=SOuGNc3Qf9rCj3Osl-eHyQ&branch=master)
 ![Flow Coverage](./public/flow-coverage-badge.svg)
 
-### [Latest Documentation](https://anoniowallet.com)
+### [Latest Documentation](https://zepiowallet.com)
 
-### [Latest Release](https://github.com/AnonFoundation/anonio/releases)
-
-![Anonio Wallet](https://raw.githubusercontent.com/AnonFoundation/anonio-docs/develop/docz/assets/dashboard.png)
+### [Latest Release](https://github.com/anonymousbitcoin/anonio/releases)
 
 ## Stack Information
 
