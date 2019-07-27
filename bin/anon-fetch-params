@@ -10,7 +10,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 rpcuser=anonuser
 rpcpassword=anonpass
 rpcallowip=127.0.0.1
-testnet=1
 txindex=1
 server=1
 EOF
@@ -23,7 +22,6 @@ else
 rpcuser=anonuser
 rpcpassword=anonpass
 rpcallowip=127.0.0.1
-testnet=1
 txindex=1
 server=1
 EOF
