@@ -85,13 +85,12 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
     const formattedTransactions = sortByDescend('date')(
       [
         ...tTxs,
-        // ...await listShieldedTransactions(),
         ...await zGetZTxsFromStore(),
       ].map(transaction => ({
-        confirmations: transaction.confirmations !== undefined
+        confirmations: typeof transaction.confirmations !== 'undefined'
           ? transaction.confirmations
           : 0,
-        confirmed: transaction.confirmations !== undefined
+        confirmed: typeof transaction.confirmations !== 'undefined'
           ? transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER
           : true,
         transactionId: transaction.txid,

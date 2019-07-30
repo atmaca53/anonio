@@ -46,7 +46,7 @@ const handler = (server) => {
         sleep(1000).then(() => {
           const [, [obj], amount, fee] = req.body.params;
 
-          if ((obj.address[0] === 'z' || obj.address[0] === 't') && amount > 0) {
+          if ((obj.address[0] === 'z' || obj.address[0] === 'A' || obj.address[0] === 't') && amount > 0) {
             transactions.push({
               account: '',
               address: obj.address,
@@ -75,7 +75,7 @@ const handler = (server) => {
         // eslint-disable-next-line
         const [zAd] = req.body.params;
 
-        if (zAd[0] === 'z' || zAd[0] === 't') {
+        if (zAd[0] === 'z' || zAd[0] === 'A' || zAd[0] === 't') {
           return res.send({ result: { isvalid: true } });
         }
 
@@ -84,7 +84,7 @@ const handler = (server) => {
         // eslint-disable-next-line
         const [tAd] = req.body.params;
 
-        if (tAd[0] === 'z' || tAd[0] === 't') {
+        if (tAd[0] === 'z' || tAd[0] === 'A' || tAd[0] === 't') {
           return res.send({ result: { isvalid: true } });
         }
 

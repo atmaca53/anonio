@@ -13,7 +13,7 @@ import rpc from '../../services/api';
 import store from '../../config/electron-store';
 import { SAPLING, MIN_CONFIRMATIONS_NUMBER } from '../constants/anon-network';
 import { NODE_SYNC_TYPES } from '../constants/node-sync-types';
-import { zGetZTxsFromStore, listShieldedTransactions, updateShieldedTransactions } from '../../services/shielded-transactions';
+import { zGetZTxsFromStore, updateShieldedTransactions } from '../../services/shielded-transactions';
 import { sortByDescend } from '../utils/sort-by-descend';
 
 import {
@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
     updateShieldedTransactions();
 
-    const tTxs = transactions.filter(t => t.category === 'receive' || t.category === 'send').map(e => {return {
+    const tTxs = transactions.filter(t => t.address && (t.category === 'receive' || t.category === 'send')).map(e => {return {
       confirmations: e.confirmations,
       txid: e.txid,
       category: e.category,
@@ -69,6 +69,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       toaddress: e.address,
       amount: e.amount,
     }})
+
+    const zTx = await zGetZTxsFromStore()
+    console.log('zTx')
+    console.log(zTx)
 
     const formatMemo = (m) => {
       m = m.replace(/[0]+$/,'')
@@ -79,10 +83,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
     const formattedTransactions: Array<Object> = flow([
       arr => arr.map(transaction => ({
-        confirmations: transaction.confirmations !== undefined
+        confirmations: typeof transaction.confirmations !== 'undefined'
           ? transaction.confirmations
           : 0,
-        confirmed: transaction.confirmations !== undefined
+        confirmed: typeof transaction.confirmations !== 'undefined'
           ? transaction.confirmations >= MIN_CONFIRMATIONS_NUMBER
           : true,
         transactionId: transaction.txid,
@@ -106,8 +110,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         list: sortByDescend('date')(obj[day]),
       })),
       sortByDescend('jsDay'),
-        // ])(([...tTxs, ...await listShieldedTransactions()]
-        ])(([...tTxs, ...await zGetZTxsFromStore()]
+        ])(([...tTxs, ...await zGetZTxsFromStore(10)]
           .sort((a, b) => (a.time < b.time) ? 1 : -1))
           .slice(0, 10));
 
