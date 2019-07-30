@@ -42,9 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => ({
 
     let currentHeight
     try {
-      const api = await axios.get('https://api.anon.community/getinfo');
-      // const api = { data: { blocks: 62309 }}
-      currentHeight = api.data.blocks
+      currentHeight = (await axios.get('https://api.anon.community/getinfo')).data.blocks;
     } catch (error) {
       console.error(error);
     }
